@@ -1,0 +1,28 @@
+# API
+fastapi
+uvicorn[standard]
+
+# Agent orchestration
+langgraph
+
+# LLM integration
+langchain
+langchain-openai
+langchain-openrouter
+
+# Structured outputs / validation
+pydantic
+
+# Database
+sqlalchemy
+psycopg[binary]
+
+# SQL parsing and safety validation
+sqlparse
+
+# Environment variables / secrets
+python-dotenv
+
+# Testing
+pytest
+httpx
