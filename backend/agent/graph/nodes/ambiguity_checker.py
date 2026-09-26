@@ -74,7 +74,14 @@ def ambiguity_checker(state : AgentState) -> dict:
             """
         )
     ]
+    
+    print("\nChecking For Ambiguity....")
     result = structured_llm.invoke(messages)
+
+    if result.is_sufficient:
+        print("No ambiguity found")
+    else:
+        print("Ambiguous")
 
     return {
         "is_ambiguous" : not result.is_sufficient,

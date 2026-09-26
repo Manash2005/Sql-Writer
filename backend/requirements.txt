@@ -9,6 +9,8 @@ langgraph
 langchain
 langchain-openai
 langchain-openrouter
+langchain[google-genai]
+langchain-groq
 
 # Structured outputs / validation
 pydantic

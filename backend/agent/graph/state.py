@@ -4,6 +4,7 @@ class AgentState(TypedDict):
     query : str
     intent : Literal['read', 'write', 'schema_change']
     parsed_request : dict
+    schema : str
     is_ambiguous : bool
     ask_questions : list[str] | None
     generated_sql : str | None

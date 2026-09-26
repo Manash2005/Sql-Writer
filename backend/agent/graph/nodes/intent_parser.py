@@ -43,6 +43,8 @@ def parse_intent(state : AgentState) -> dict:
         HumanMessage(content=state['query']),
     ]
 
+    print()
+    print("Checking Intent....")
     result = structured_llm.invoke(messages)
 
     return {

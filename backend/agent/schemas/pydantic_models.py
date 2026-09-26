@@ -12,3 +12,6 @@ class AmbiguityResult(BaseModel):
     is_sufficient: bool
     missing_info: str | None = None
     clarifying_question: list[str] | None = None
+
+class SQLResult(BaseModel):
+    sql : str
