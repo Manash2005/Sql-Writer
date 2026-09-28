@@ -1,3 +1,4 @@
+import json
 import os
 from langchain_openrouter import ChatOpenRouter
 from dotenv import load_dotenv
@@ -7,7 +8,7 @@ from backend.agent.schemas.pydantic_models import IntentResult
 from backend.agent.graph.state import AgentState
 load_dotenv()
 
-llm = ChatOpenRouter(model='openrouter/free')
+llm = ChatOpenRouter(model='openrouter/free', api_key=os.getenv('OPENROUTER_API_KEY'))
 structured_llm = llm.with_structured_output(IntentResult)
 
 SYSTEM_PROMPT = """
@@ -37,15 +38,46 @@ Important rules:
 - Do not assume missing conditions.
 """
 
-def parse_intent(state : AgentState) -> dict:
-    messages = [
-        SystemMessage(content=SYSTEM_PROMPT),
-        HumanMessage(content=state['query']),
-    ]
+MAX_ATTEMPTS = 3
 
+STRICT_OUTPUT_PROMPT = """
+Your previous response did not provide valid structured output. Return exactly
+one result that validates against the Pydantic schema below. Do not include
+Markdown, explanations, or text outside the structured result.
+"""
+
+def parse_intent(state : AgentState) -> dict:
     print()
     print("Checking Intent....")
-    result = structured_llm.invoke(messages)
+
+    for attempt in range(1, MAX_ATTEMPTS + 1):
+        system_prompt = SYSTEM_PROMPT
+        if attempt == MAX_ATTEMPTS:
+            system_prompt += (
+                STRICT_OUTPUT_PROMPT
+                + "\nPydantic schema:\n"
+                + json.dumps(IntentResult.model_json_schema())
+            )
+
+        messages = [
+            SystemMessage(content=system_prompt),
+            HumanMessage(content=state['query']),
+        ]
+
+        try:
+            result = structured_llm.invoke(messages)
+            if not isinstance(result, IntentResult):
+                if result is None:
+                    raise ValueError("The model returned no structured result.")
+                result = IntentResult.model_validate(result)
+            break
+        except Exception as exc:
+            if attempt == MAX_ATTEMPTS:
+                raise RuntimeError(
+                    f"Intent parsing failed to return valid structured output "
+                    f"after {MAX_ATTEMPTS} attempts."
+                ) from exc
+            print(f"Intent structured output failed on attempt {attempt}; retrying.")
 
     return {
         "intent": result.intent,

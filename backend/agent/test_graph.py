@@ -25,3 +25,9 @@ print(result["generated_sql"])
 
 print("\nRisk flags:")
 print(result["risk_flags"])
+
+print("\nEstimated rows affected:")
+print(result["estimated_rows_affected"])
+
+print("\nHuman decision:")
+print(result["human_decision"])
