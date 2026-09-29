@@ -8,7 +8,7 @@
 [![React](https://img.shields.io/badge/React_19-Vite-61DAFB?style=flat&logo=react&logoColor=black)](https://react.dev)
 [![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
 [![SQLite Sandbox](https://img.shields.io/badge/Database-SQLite_Sandbox-003B57?style=flat&logo=sqlite&logoColor=white)](https://www.sqlite.org)
-[![Tests Passing](https://img.shields.io/badge/Tests-22%20Passed-76C457?style=flat)](file:///Users/manashswain/Projects/Vid-AI-Assistant/backend/tests)
+[![Tests Passing](https://img.shields.io/badge/Tests-22%20Passed-76C457?style=flat)](file:///Users/manashswain/Projects/Sql-Writer/backend/tests)
 
 ---
 
@@ -120,7 +120,7 @@ flowchart TD
 ## 📂 Project Structure
 
 ```
-Vid-AI-Assistant/
+Sql-Writer/
 ├── backend/
 │   ├── agent/
 │   │   ├── graph/
@@ -179,8 +179,8 @@ Vid-AI-Assistant/
 ### 2. Backend Setup
 ```bash
 # Clone the repository
-git clone https://github.com/Manash2005/Vid-AI-Assistant.git
-cd Vid-AI-Assistant
+git clone https://github.com/Manash2005/Sql-Writer.git
+cd Sql-Writer
 
 # Create and activate a virtual environment
 python3 -m venv venv
@@ -254,7 +254,7 @@ cd frontend && npm run build
    | `ALLOWED_ORIGINS` | `https://your-app.vercel.app` | Comma-separated allowed CORS origins |
    | `PYTHON_VERSION` | `3.11.9` | Recommended Python runtime |
 
-*(Alternatively, use the included [`render.yaml`](file:///Users/manashswain/Projects/Vid-AI-Assistant/render.yaml) blueprint to automate this configuration).*
+*(Alternatively, use the included [`render.yaml`](file:///Users/manashswain/Projects/Sql-Writer/render.yaml) blueprint to automate this configuration).*
 
 ---
 
@@ -272,7 +272,7 @@ cd frontend && npm run build
    | Variable | Value | Description |
    |---|---|---|
    | `VITE_API_BASE_URL` | `https://sql-assistant-backend.onrender.com` | Your live Render backend URL (no trailing slash) |
-5. Click **Deploy**. Vercel will build the frontend and serve it with automatic SPA routing using the included [`vercel.json`](file:///Users/manashswain/Projects/Vid-AI-Assistant/frontend/vercel.json).
+5. Click **Deploy**. Vercel will build the frontend and serve it with automatic SPA routing using the included [`vercel.json`](file:///Users/manashswain/Projects/Sql-Writer/frontend/vercel.json).
 
 ---
 
