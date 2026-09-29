@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Terminal, CheckCircle2, Lock, ArrowDown, Shield, Database, Sparkles } from 'lucide-react';
+import { Terminal, CheckCircle2, Lock, ArrowDown, Shield, Database } from 'lucide-react';
 import Header from './components/layout/Header';
 import QueryPage from './pages/QueryPage';
 import HistoryPage from './pages/HistoryPage';
@@ -51,10 +51,10 @@ export default function App() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#080e14] text-[#F8FAFC] selection:bg-[#457B9D]/30 selection:text-[#F8FAFC] flex flex-col font-sans overflow-x-hidden">
+    <div className="relative min-h-screen bg-bg-base text-text-primary selection:bg-c1/30 selection:text-text-primary flex flex-col font-sans overflow-x-hidden">
       {/* Background Grid Lines (Engineered mathematical grid, smooth floating motion) */}
       <div className="fixed inset-0 pointer-events-none bg-grid-lines animate-grid-float opacity-50 z-0" />
-      <div className="fixed inset-0 pointer-events-none bg-grid-dense opacity-20 z-0" />
+      <div className="fixed inset-0 pointer-events-none bg-grid-dense opacity-25 z-0" />
 
       {/* In-app Global Clear Confirmation Modal */}
       <ConfirmModal
@@ -67,7 +67,7 @@ export default function App() {
         variant="danger"
       />
 
-      {/* Header */}
+      {/* Header with Appearance Switcher */}
       <Header onClearAll={() => setShowGlobalClearModal(true)} />
 
       {/* Clear notification banner */}
@@ -76,7 +76,7 @@ export default function App() {
           initial={{ opacity: 0, y: -20, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -20, scale: 0.95 }}
-          className="fixed top-20 right-6 z-50 glass-panel border border-[#457B9D]/80 text-[#457B9D] px-4 py-2.5 rounded-xl text-xs font-semibold shadow-2xl flex items-center gap-2"
+          className="fixed top-20 right-6 z-50 glass-panel border border-c1/80 text-c1 px-4 py-2.5 rounded-xl text-xs font-semibold shadow-2xl flex items-center gap-2"
         >
           <CheckCircle2 size={16} />
           <span>All history and audit logs cleared!</span>
@@ -94,31 +94,31 @@ export default function App() {
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             className="space-y-5 max-w-3xl"
           >
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-panel border border-[#457B9D]/40 text-xs font-mono text-[#CBD5E1] animate-float-slow">
-              <span className="w-2 h-2 rounded-full bg-[#457B9D] animate-pulse" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-panel border border-c1/40 text-xs font-mono text-text-secondary animate-float-slow">
+              <span className="w-2 h-2 rounded-full bg-c1 animate-pulse" />
               <span>Safety-First SQL Generation Engine</span>
             </div>
 
-            <h1 className="font-display font-extrabold text-4xl sm:text-6xl text-[#F8FAFC] tracking-tight leading-[1.18]">
-              Query your database in <span className="hl-blue">plain English</span>, with zero risk.
+            <h1 className="font-display font-extrabold text-4xl sm:text-6xl text-text-primary tracking-tight leading-[1.18]">
+              Query your database in <span className="hl-teal">plain English</span>, with zero risk.
             </h1>
 
-            <p className="text-base sm:text-lg text-[#CBD5E1] leading-relaxed font-sans font-normal">
+            <p className="text-base sm:text-lg text-text-secondary leading-relaxed font-sans font-normal">
               State machine agent with dual-layer protection: deterministic AST validation intercepts destructive queries, and every state mutation halts for operator confirmation.
             </p>
 
             <div className="flex items-center gap-4 pt-1">
               <a
                 href="#workspace"
-                className="btn-3d-blue inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm transition-transform active:scale-95"
+                className="btn-3d-teal inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm transition-transform active:scale-95"
               >
                 <span>Open Workspace</span>
-                <ArrowDown size={14} className="text-[#F8FAFC]" />
+                <ArrowDown size={14} className="text-[#061515]" />
               </a>
 
               <a
                 href="#database"
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-sm glass-panel hover:bg-[#162230] text-[#CBD5E1] hover:text-[#F8FAFC] border border-[#457B9D]/40 transition-all active:scale-95"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-sm glass-panel hover:bg-c4/20 text-text-secondary hover:text-text-primary border border-c4 hover:border-c1 transition-all active:scale-95"
               >
                 <span>Live Schema &amp; Data</span>
               </a>
@@ -134,11 +134,11 @@ export default function App() {
               whileHover={{ y: -4, transition: { duration: 0.2 } }}
               className="glass-panel p-5 rounded-2xl space-y-2.5 transition-all"
             >
-              <div className="h-9 w-9 rounded-lg bg-[#457B9D]/20 border border-[#457B9D]/40 flex items-center justify-center text-[#457B9D]">
+              <div className="h-9 w-9 rounded-lg bg-c1/20 border border-c1/40 flex items-center justify-center text-c1">
                 <Terminal size={18} />
               </div>
-              <h3 className="font-display font-bold text-base text-[#F8FAFC]">Natural Language Ingestion</h3>
-              <p className="text-xs text-[#CBD5E1] leading-relaxed">
+              <h3 className="font-display font-bold text-base text-text-primary">Natural Language Ingestion</h3>
+              <p className="text-xs text-text-secondary leading-relaxed">
                 Translates high-level business queries into standard SQL using Groq Qwen with automatic failover to OpenRouter.
               </p>
             </motion.div>
@@ -150,11 +150,11 @@ export default function App() {
               whileHover={{ y: -4, transition: { duration: 0.2 } }}
               className="glass-panel p-5 rounded-2xl space-y-2.5 transition-all"
             >
-              <div className="h-9 w-9 rounded-lg bg-[#E63946]/20 border border-[#E63946]/40 flex items-center justify-center text-[#E63946]">
+              <div className="h-9 w-9 rounded-lg bg-c3/20 border border-c3/40 flex items-center justify-center text-c3">
                 <Lock size={18} />
               </div>
-              <h3 className="font-display font-bold text-base text-[#F8FAFC]">Deterministic AST Guard</h3>
-              <p className="text-xs text-[#CBD5E1] leading-relaxed">
+              <h3 className="font-display font-bold text-base text-text-primary">Deterministic AST Guard</h3>
+              <p className="text-xs text-text-secondary leading-relaxed">
                 Independent AST security parser hard-blocks DROP, ALTER, and unbounded mass UPDATE/DELETE statements.
               </p>
             </motion.div>
@@ -166,11 +166,11 @@ export default function App() {
               whileHover={{ y: -4, transition: { duration: 0.2 } }}
               className="glass-panel p-5 rounded-2xl space-y-2.5 transition-all"
             >
-              <div className="h-9 w-9 rounded-lg bg-[#F4D35E]/20 border border-[#F4D35E]/40 flex items-center justify-center text-[#F4D35E]">
+              <div className="h-9 w-9 rounded-lg bg-c2/20 border border-c2/40 flex items-center justify-center text-c2">
                 <CheckCircle2 size={18} />
               </div>
-              <h3 className="font-display font-bold text-base text-[#F8FAFC]">Human in the Loop</h3>
-              <p className="text-xs text-[#CBD5E1] leading-relaxed">
+              <h3 className="font-display font-bold text-base text-text-primary">Human in the Loop</h3>
+              <p className="text-xs text-text-secondary leading-relaxed">
                 State machine interrupts before database execution, presenting exact statement preview and row impact for your sign-off.
               </p>
             </motion.div>
@@ -188,10 +188,10 @@ export default function App() {
         >
           <div className="flex items-center justify-between">
             <div className="space-y-1">
-              <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#F8FAFC] tracking-tight flex items-center gap-2.5">
-                <Terminal className="text-[#457B9D]" size={24} /> Execution Workspace
+              <h2 className="font-display font-bold text-2xl sm:text-3xl text-text-primary tracking-tight flex items-center gap-2.5">
+                <Terminal className="text-c1" size={24} /> Execution Workspace
               </h2>
-              <p className="text-xs sm:text-sm text-[#849BB0] font-sans">
+              <p className="text-xs sm:text-sm text-text-muted font-sans">
                 Submit questions below. Review proposed queries and execute inside the secured sandbox.
               </p>
             </div>
@@ -211,10 +211,10 @@ export default function App() {
           id="database"
         >
           <div className="space-y-1">
-            <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#F8FAFC] tracking-tight flex items-center gap-2.5">
-              <Database className="text-[#457B9D]" size={24} /> Sandbox Database &amp; Schema
+            <h2 className="font-display font-bold text-2xl sm:text-3xl text-text-primary tracking-tight flex items-center gap-2.5">
+              <Database className="text-c1" size={24} /> Sandbox Database &amp; Schema
             </h2>
-            <p className="text-xs sm:text-sm text-[#849BB0]">
+            <p className="text-xs sm:text-sm text-text-muted">
               Live tables, schema definitions, and records populated in the local SQLite sandbox.
             </p>
           </div>
@@ -233,10 +233,10 @@ export default function App() {
           id="history"
         >
           <div className="space-y-1">
-            <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#F8FAFC] tracking-tight flex items-center gap-2.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#457B9D]" /> Session History
+            <h2 className="font-display font-bold text-2xl sm:text-3xl text-text-primary tracking-tight flex items-center gap-2.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-c1" /> Session History
             </h2>
-            <p className="text-xs sm:text-sm text-[#849BB0]">
+            <p className="text-xs sm:text-sm text-text-muted">
               Chronological log of queries and decisions in your active session.
             </p>
           </div>
@@ -259,10 +259,10 @@ export default function App() {
           id="audit"
         >
           <div className="space-y-1">
-            <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#F8FAFC] tracking-tight flex items-center gap-2.5">
-              <Shield className="text-[#457B9D]" size={24} /> Security Audit Logs
+            <h2 className="font-display font-bold text-2xl sm:text-3xl text-text-primary tracking-tight flex items-center gap-2.5">
+              <Shield className="text-c1" size={24} /> Security Audit Logs
             </h2>
-            <p className="text-xs sm:text-sm text-[#849BB0]">
+            <p className="text-xs sm:text-sm text-text-muted">
               Immutable database audit trail recording every request, AST validation score, and human approval.
             </p>
           </div>
@@ -274,11 +274,11 @@ export default function App() {
       </main>
 
       {/* Minimalist Footer */}
-      <footer className="relative z-10 border-t border-[#457B9D]/30 py-10 bg-[#080e14]/90 backdrop-blur-md text-center text-xs font-sans space-y-2">
-        <p className="font-semibold text-[#CBD5E1]">
+      <footer className="relative z-10 border-t border-c4/40 py-10 bg-bg-base/90 backdrop-blur-md text-center text-xs font-sans space-y-2">
+        <p className="font-semibold text-text-secondary">
           Natural Language to SQL Assistant &bull; Safety-First Architecture
         </p>
-        <p className="text-[#849BB0]">
+        <p className="text-text-muted">
           Deterministic Validation &bull; Human-in-the-Loop Approval &bull; SQLite Sandbox
         </p>
       </footer>

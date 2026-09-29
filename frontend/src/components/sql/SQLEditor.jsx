@@ -25,32 +25,32 @@ export default function SQLEditor({
     <motion.div
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
-      className="rounded-xl border border-[#00B7CD]/40 bg-[#0d0f15] card-3d overflow-hidden"
+      className="rounded-xl border border-c1/50 bg-bg-surface card-3d overflow-hidden"
     >
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-2.5 border-b border-[#252a38] bg-[#161922]">
+      <div className="flex items-center justify-between px-4 py-2.5 border-b border-c4 bg-bg-elevated">
         <div className="flex items-center gap-2">
-          <Edit3 size={13} className="text-[#00B7CD]" />
-          <p className="text-[10px] font-mono font-semibold text-[#00B7CD] uppercase tracking-widest">
+          <Edit3 size={13} className="text-c1" />
+          <p className="text-[10px] font-mono font-semibold text-c1 uppercase tracking-widest">
             Edit SQL
           </p>
         </div>
-        <p className="text-xs text-[#8b91a8]">Edited SQL will be re-validated by safety engine</p>
+        <p className="text-xs text-text-muted">Edited SQL will be re-validated by safety engine</p>
       </div>
 
       {/* Original reference */}
       <div className="px-4 pt-3">
-        <p className="text-[10px] font-mono font-medium text-[#565c75] uppercase tracking-widest mb-2">
+        <p className="text-[10px] font-mono font-medium text-text-muted uppercase tracking-widest mb-2">
           Original SQL
         </p>
-        <pre className="text-xs font-mono text-[#565c75] bg-[#0a0b0f] border border-[#1a1f2e] rounded p-3 overflow-x-auto scrollbar-x leading-5">
+        <pre className="text-xs font-mono text-text-muted bg-bg-base border border-c4 rounded p-3 overflow-x-auto scrollbar-x leading-5">
           {originalSql}
         </pre>
       </div>
 
       {/* Editor */}
       <div className="px-4 pt-3 pb-4">
-        <p className="text-[10px] font-mono font-medium text-[#e8eaf0] uppercase tracking-widest mb-2">
+        <p className="text-[10px] font-mono font-medium text-text-secondary uppercase tracking-widest mb-2">
           Edited SQL
         </p>
         <textarea
@@ -60,24 +60,24 @@ export default function SQLEditor({
           rows={8}
           spellCheck={false}
           className={[
-            'w-full bg-[#0a0b0f] border rounded-md px-3 py-3',
-            'text-sm font-mono text-[#e8eaf0] placeholder-[#565c75]',
+            'w-full bg-bg-base border rounded-md px-3 py-3',
+            'text-sm font-mono text-text-primary placeholder-text-muted',
             'focus:outline-none transition-colors resize-y leading-5',
             'disabled:opacity-60 disabled:cursor-not-allowed',
-            error ? 'border-[#DF301C]' : 'border-[#252a38] focus:border-[#00B7CD]',
+            error ? 'border-c3' : 'border-c4 focus:border-c1',
           ].join(' ')}
           aria-label="Edited SQL"
         />
 
         {error && (
-          <div className="mt-2 flex items-start gap-2 text-xs text-[#DF301C]">
+          <div className="mt-2 flex items-start gap-2 text-xs text-c3">
             <AlertCircle size={12} className="shrink-0 mt-0.5" />
             <p>{error}</p>
           </div>
         )}
 
         <div className="flex items-center justify-between mt-3">
-          <p className="text-xs text-[#8b91a8]">
+          <p className="text-xs text-text-muted">
             Safety engine evaluates query before any DB execution.
           </p>
           <div className="flex items-center gap-2">

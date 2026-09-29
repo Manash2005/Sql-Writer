@@ -33,40 +33,40 @@ export default function ExecutionResult({ executionResult, intent }) {
     <motion.div
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
-      className="card-3d rounded-xl border border-[#450C3F] bg-[#140a1b] overflow-hidden font-sans"
+      className="card-3d rounded-xl border border-c4 bg-bg-surface overflow-hidden font-sans"
     >
       {/* Status header */}
       <div
         className={[
           'flex items-center gap-2 px-4 py-3 border-b',
           isSuccess
-            ? 'border-[#B9D175]/30 bg-[#1d0f28]'
-            : 'border-[#DF301C]/40 bg-[#16080a]',
+            ? 'border-c1/40 bg-bg-elevated'
+            : 'border-c3/40 bg-bg-surface',
         ].join(' ')}
       >
         {isSuccess ? (
-          <CheckCircle size={14} className="text-[#B9D175] shrink-0" />
+          <CheckCircle size={14} className="text-c1 shrink-0" />
         ) : (
-          <XCircle size={14} className="text-[#DF301C] shrink-0" />
+          <XCircle size={14} className="text-c3 shrink-0" />
         )}
         <p
           className={`text-[10px] font-mono font-bold uppercase tracking-widest ${
-            isSuccess ? 'text-[#B9D175]' : 'text-[#DF301C]'
+            isSuccess ? 'text-c1' : 'text-c3'
           }`}
         >
           {isSuccess ? 'Query Executed in Sandbox' : 'Execution Failed'}
         </p>
 
         {isSuccess && isRead && (
-          <span className="ml-auto flex items-center gap-1.5 text-xs text-[#d1c5a9] font-mono">
-            <Table2 size={12} className="text-[#00B7CD]" />
-            <strong className="text-[#FFF1D1]">{rawRows.length}</strong> {rawRows.length === 1 ? 'row' : 'rows'} returned
+          <span className="ml-auto flex items-center gap-1.5 text-xs text-text-secondary font-mono">
+            <Table2 size={12} className="text-c1" />
+            <strong className="text-c2">{rawRows.length}</strong> {rawRows.length === 1 ? 'row' : 'rows'} returned
           </span>
         )}
 
         {isSuccess && !isRead && rowsAffected !== undefined && rowsAffected !== null && (
-          <span className="ml-auto text-xs text-[#d1c5a9] font-mono">
-            <strong className="text-[#FFF1D1]">{rowsAffected}</strong> {rowsAffected === 1 ? 'row' : 'rows'} modified
+          <span className="ml-auto text-xs text-text-secondary font-mono">
+            <strong className="text-c2">{rowsAffected}</strong> {rowsAffected === 1 ? 'row' : 'rows'} modified
           </span>
         )}
       </div>
@@ -74,7 +74,7 @@ export default function ExecutionResult({ executionResult, intent }) {
       <div className="p-4">
         {/* Failure reason */}
         {!isSuccess && (
-          <div className="text-sm text-red-400 font-mono bg-red-500/5 border border-red-500/20 rounded p-3">
+          <div className="text-sm text-c3 font-mono bg-c3/10 border border-c3/30 rounded p-3">
             {errorMsg || 'An unexpected error occurred during execution.'}
           </div>
         )}
@@ -87,7 +87,7 @@ export default function ExecutionResult({ executionResult, intent }) {
         {/* Write result */}
         {isSuccess && !isRead && (
           <div className="flex items-center gap-3">
-            <p className="text-sm text-[#8b91a8]">
+            <p className="text-sm text-text-muted">
               {rowsAffected !== undefined && rowsAffected !== null
                 ? `${rowsAffected} ${rowsAffected === 1 ? 'row' : 'rows'} were modified in the database.`
                 : 'Operation completed successfully.'}

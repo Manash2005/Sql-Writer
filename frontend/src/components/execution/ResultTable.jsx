@@ -25,15 +25,15 @@ export default function ResultTable({ columns, rows }) {
   };
 
   return (
-    <div className="overflow-x-auto scrollbar-x rounded-xl border border-[#450C3F] glass-panel shadow-[0_4px_0_0_#450C3F]">
+    <div className="overflow-x-auto scrollbar-x rounded-xl border border-c4 glass-panel shadow-md">
       <table className="min-w-full text-sm font-mono" role="grid" aria-label="Query results">
         <thead>
-          <tr className="bg-[#1d0f28]/90 backdrop-blur-md border-b border-[#450C3F]">
+          <tr className="bg-bg-elevated/95 backdrop-blur-md border-b border-c4">
             {columns.map((col) => (
               <th
                 key={col}
                 scope="col"
-                className="px-4 py-2.5 text-left text-[10px] font-bold text-[#FFF1D1] uppercase tracking-wider whitespace-nowrap"
+                className="px-4 py-2.5 text-left text-[10px] font-bold text-c2 uppercase tracking-wider whitespace-nowrap"
               >
                 {col}
               </th>
@@ -44,9 +44,9 @@ export default function ResultTable({ columns, rows }) {
           {rows.map((row, rowIdx) => (
             <tr
               key={rowIdx}
-              className={`border-b border-[#450C3F]/40 ${
-                rowIdx % 2 === 0 ? 'bg-[#0d0611]' : 'bg-[#140a1b]'
-              } hover:bg-[#271435] transition-colors`}
+              className={`border-b border-c4/40 ${
+                rowIdx % 2 === 0 ? 'bg-bg-base' : 'bg-bg-surface'
+              } hover:bg-c4/20 transition-colors`}
             >
               {columns.map((col) => {
                 const value = row[col];
@@ -54,17 +54,17 @@ export default function ResultTable({ columns, rows }) {
                 return (
                   <td
                     key={col}
-                    className="px-4 py-2 text-xs text-[#FFF1D1] whitespace-nowrap max-w-xs truncate group relative"
+                    className="px-4 py-2 text-xs text-text-primary whitespace-nowrap max-w-xs truncate group relative"
                     title={String(value ?? '')}
                   >
                     <span className="truncate block">{formatCellValue(value)}</span>
                     <button
                       onClick={() => handleCopyCell(value, cellKey)}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 text-[#8c826c] hover:text-[#B9D175] transition-opacity p-0.5 rounded"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 text-text-muted hover:text-c1 transition-opacity p-0.5 rounded"
                       aria-label={`Copy ${col} value`}
                     >
                       {copiedCell === cellKey
-                        ? <Check size={11} className="text-[#B9D175]" />
+                        ? <Check size={11} className="text-c1" />
                         : <Copy size={11} />
                       }
                     </button>
@@ -80,7 +80,7 @@ export default function ResultTable({ columns, rows }) {
 }
 
 function formatCellValue(value) {
-  if (value === null || value === undefined) return <span className="text-[#565c75]">NULL</span>;
+  if (value === null || value === undefined) return <span className="text-text-muted italic">NULL</span>;
   if (typeof value === 'boolean') return value ? 'true' : 'false';
   return String(value);
 }

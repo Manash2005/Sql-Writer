@@ -2,25 +2,31 @@ import { forwardRef } from 'react';
 
 const variantClasses = {
   primary:
-    'bg-[#457B9D] hover:bg-[#4f8ab0] text-[#FFF8F0] font-semibold border border-[#5a92b5] shadow-[0_2px_0_0_#2e556e] active:translate-y-0.5',
+    'btn-3d-teal active:translate-y-0.5',
   secondary:
-    'bg-[#210d14] hover:bg-[#2b111a] text-[#FFF8F0] border border-[#8B1E2D] shadow-[0_2px_0_0_#53121b] hover:border-[#F4D35E]/50 active:translate-y-0.5',
+    'bg-bg-elevated hover:bg-bg-overlay text-c2 border border-c4 shadow-[0_2px_0_0_color-mix(in_srgb,var(--theme-c4)_70%,black)] hover:border-c1 active:translate-y-0.5',
   danger:
-    'bg-[#E63946] hover:bg-[#ec4856] text-white font-semibold border border-[#ec5863] shadow-[0_2px_0_0_#a8242f] active:translate-y-0.5',
+    'btn-3d-danger active:translate-y-0.5',
   ghost:
-    'bg-transparent hover:bg-[#2b111a] text-[#e2d4cf] hover:text-[#FFF8F0] border border-transparent',
+    'bg-transparent hover:bg-bg-overlay text-text-secondary hover:text-text-primary border border-transparent',
   outline:
-    'bg-transparent hover:bg-[#210d14] text-[#FFF8F0] border border-[#8B1E2D] hover:border-[#F4D35E] active:translate-y-0.5',
+    'bg-transparent hover:bg-bg-elevated text-c2 border border-c4 hover:border-c1 active:translate-y-0.5',
   emerald:
-    'bg-[#F4D35E] hover:bg-[#fae17f] text-[#0f0608] font-bold border border-[#fae28b] shadow-[0_2px_0_0_#c2a135] active:translate-y-0.5',
+    'btn-3d-teal active:translate-y-0.5',
+  teal:
+    'btn-3d-teal active:translate-y-0.5',
   lime:
-    'bg-[#F4D35E] hover:bg-[#fae17f] text-[#0f0608] font-bold border border-[#fae28b] shadow-[0_2px_0_0_#c2a135] active:translate-y-0.5',
+    'btn-3d-gold active:translate-y-0.5',
   gold:
-    'bg-[#F4D35E] hover:bg-[#fae17f] text-[#0f0608] font-bold border border-[#fae28b] shadow-[0_2px_0_0_#c2a135] active:translate-y-0.5',
+    'btn-3d-gold active:translate-y-0.5',
+  champagne:
+    'btn-3d-gold active:translate-y-0.5',
   wine:
-    'bg-[#8B1E2D] hover:bg-[#a12335] text-[#FFF8F0] font-semibold border border-[#8B1E2D] shadow-[0_2px_0_0_#53121b] active:translate-y-0.5',
+    'bg-c4 hover:bg-c4/80 text-text-primary font-semibold border border-c4 shadow-[0_2px_0_0_black] active:translate-y-0.5',
+  maroon:
+    'bg-c4 hover:bg-c4/80 text-text-primary font-semibold border border-c4 shadow-[0_2px_0_0_black] active:translate-y-0.5',
   plum:
-    'bg-[#8B1E2D] hover:bg-[#a12335] text-[#FFF8F0] font-semibold border border-[#8B1E2D] shadow-[0_2px_0_0_#53121b] active:translate-y-0.5',
+    'bg-c4 hover:bg-c4/80 text-text-primary font-semibold border border-c4 shadow-[0_2px_0_0_black] active:translate-y-0.5',
 };
 
 const sizeClasses = {
@@ -32,7 +38,7 @@ const sizeClasses = {
 
 /**
  * @param {Object} props
- * @param {'primary'|'secondary'|'danger'|'ghost'|'outline'|'emerald'} [props.variant]
+ * @param {'primary'|'secondary'|'danger'|'ghost'|'outline'|'emerald'|'teal'|'gold'|'wine'} [props.variant]
  * @param {'xs'|'sm'|'md'|'lg'} [props.size]
  * @param {boolean} [props.disabled]
  * @param {boolean} [props.loading]
@@ -62,7 +68,7 @@ const Button = forwardRef(function Button(
       className={[
         'inline-flex items-center justify-center font-medium rounded-md',
         'transition-colors duration-150',
-        'focus-visible:outline-2 focus-visible:outline-indigo-500 focus-visible:outline-offset-2',
+        'focus-visible:outline-2 focus-visible:outline-c1 focus-visible:outline-offset-2',
         'disabled:opacity-50 disabled:cursor-not-allowed',
         variantClasses[variant] || variantClasses.secondary,
         sizeClasses[size] || sizeClasses.md,

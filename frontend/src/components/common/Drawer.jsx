@@ -40,7 +40,7 @@ export default function Drawer({ open, onClose, title, side = 'right', width = '
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             className="absolute inset-0"
-            style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}
+            style={{ backgroundColor: 'rgba(0,0,0,0.75)' }}
             onClick={onClose}
           />
 
@@ -51,20 +51,20 @@ export default function Drawer({ open, onClose, title, side = 'right', width = '
             exit={slideIn}
             transition={{ type: 'tween', duration: 0.25 }}
             className={[
-              'relative ml-auto h-full bg-[#111318] border-l border-[#252a38]',
+              'relative ml-auto h-full bg-bg-surface border-l border-c4',
               'flex flex-col shadow-2xl',
               width,
             ].join(' ')}
           >
-            <div className="flex items-center justify-between px-5 py-4 border-b border-[#252a38] shrink-0">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-c4 shrink-0">
               {title && (
-                <h2 className="text-sm font-semibold text-[#e8eaf0] uppercase tracking-wider">
+                <h2 className="text-sm font-semibold text-text-primary uppercase tracking-wider font-display">
                   {title}
                 </h2>
               )}
               <button
                 onClick={onClose}
-                className="ml-auto text-[#565c75] hover:text-[#e8eaf0] transition-colors p-1 rounded"
+                className="ml-auto text-text-muted hover:text-text-primary transition-colors p-1 rounded"
                 aria-label="Close panel"
               >
                 <X size={16} />

@@ -35,7 +35,7 @@ export default function ConfirmModal({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="fixed inset-0 bg-[#0d0611]/80 backdrop-blur-xl"
+          className="fixed inset-0 bg-bg-base/80 backdrop-blur-xl"
         />
 
         {/* Modal Window */}
@@ -44,15 +44,15 @@ export default function ConfirmModal({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 10 }}
           transition={{ duration: 0.18, ease: 'easeOut' }}
-          className="glass-card-3d relative w-full max-w-md rounded-3xl p-6 space-y-5 z-10 font-sans"
+          className="glass-card-3d relative w-full max-w-md rounded-3xl p-6 space-y-5 z-10 font-sans shadow-2xl"
         >
           {/* Top Bar with Icon & Close */}
           <div className="flex items-start justify-between">
             <div
               className={`h-11 w-11 rounded-2xl flex items-center justify-center ${
                 variant === 'danger'
-                  ? 'bg-[#E63946]/20 text-[#E63946] border border-[#E63946]/40 shadow-[0_2px_0_0_#a8242f]'
-                  : 'bg-[#F4D35E]/20 text-[#F4D35E] border border-[#F4D35E]/40 shadow-[0_2px_0_0_#c2a135]'
+                  ? 'bg-c3/20 text-c3 border border-c3/40 shadow-sm'
+                  : 'bg-c2/20 text-c2 border border-c2/40 shadow-sm'
               }`}
             >
               {variant === 'danger' ? <Trash2 size={20} /> : <AlertTriangle size={20} />}
@@ -60,7 +60,7 @@ export default function ConfirmModal({
 
             <button
               onClick={onClose}
-              className="p-1.5 rounded-full text-[#9c8a8e] hover:text-[#FFF8F0] hover:bg-[#2b111a] transition-colors"
+              className="p-1.5 rounded-full text-text-muted hover:text-text-primary hover:bg-bg-overlay transition-colors"
               aria-label="Close modal"
             >
               <X size={16} />
@@ -69,10 +69,10 @@ export default function ConfirmModal({
 
           {/* Title & Message */}
           <div className="space-y-2">
-            <h3 className="font-display font-bold text-lg sm:text-xl text-[#FFF8F0] tracking-tight">
+            <h3 className="font-display font-bold text-lg sm:text-xl text-text-primary tracking-tight">
               {title}
             </h3>
-            <p className="text-sm text-[#e2d4cf] leading-relaxed font-sans">
+            <p className="text-sm text-text-secondary leading-relaxed font-sans">
               {message}
             </p>
           </div>
@@ -82,7 +82,7 @@ export default function ConfirmModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-[#e2d4cf] hover:text-[#FFF8F0] bg-[#210d14] hover:bg-[#2b111a] border border-[#8B1E2D] transition-colors"
+              className="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-text-secondary hover:text-text-primary bg-bg-elevated hover:bg-bg-overlay border border-c4 transition-colors"
             >
               {cancelText}
             </button>

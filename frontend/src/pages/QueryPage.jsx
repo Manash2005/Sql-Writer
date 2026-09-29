@@ -180,9 +180,9 @@ export default function QueryPage({ workflow }) {
                   <button
                     type="button"
                     onClick={() => setShowTechnicalDetails(!showTechnicalDetails)}
-                    className="flex items-center gap-2 text-xs font-mono font-medium text-[#d1c5a9] hover:text-[#00B7CD] bg-[#1d0f28] hover:bg-[#271435] border border-[#450C3F] px-4 py-2 rounded-xl transition-all"
+                    className="flex items-center gap-2 text-xs font-mono font-medium text-text-secondary hover:text-c1 bg-bg-elevated hover:bg-bg-overlay border border-c4 hover:border-c1 px-4 py-2 rounded-xl transition-all"
                   >
-                    <Code2 size={13} className="text-[#00B7CD]" />
+                    <Code2 size={13} className="text-c1" />
                     <span>{showTechnicalDetails ? 'Hide Generated SQL & Security Details' : 'View Generated SQL & Security Details'}</span>
                     {showTechnicalDetails ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
                   </button>

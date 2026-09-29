@@ -52,23 +52,23 @@ export default function SafetyBlockedCard({ result, onAcknowledge, onRevise }) {
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="glass-card-3d rounded-3xl border border-[#E63946]/70 bg-[#1c080d]/90 p-6 sm:p-8 space-y-6 font-sans shadow-[0_4px_0_0_#8B1E2D]"
+      className="glass-card-3d rounded-3xl border border-c3/70 bg-bg-surface p-6 sm:p-8 space-y-6 font-sans shadow-md"
     >
       {/* Top Banner */}
-      <div className="flex items-start gap-4 pb-5 border-b border-[#E63946]/30">
-        <div className="h-12 w-12 rounded-2xl bg-[#2a0c0e] border border-[#E63946]/40 flex items-center justify-center text-[#E63946] shrink-0 shadow-[0_2px_0_0_#a8242f]">
+      <div className="flex items-start gap-4 pb-5 border-b border-c3/30">
+        <div className="h-12 w-12 rounded-2xl bg-c3/20 border border-c3/50 flex items-center justify-center text-c3 shrink-0 shadow-sm">
           <ShieldAlert size={26} />
         </div>
         <div className="space-y-1 flex-1">
           <div className="flex items-center gap-2.5 flex-wrap">
-            <h3 className="font-display font-extrabold text-xl sm:text-2xl text-[#FFF8F0] tracking-tight">
+            <h3 className="font-display font-extrabold text-xl sm:text-2xl text-text-primary tracking-tight">
               Query Rejected by Safety Guard
             </h3>
-            <span className="hl-coral text-xs uppercase font-bold tracking-wider">
+            <span className="hl-crimson text-xs uppercase font-bold tracking-wider">
               Execution Blocked
             </span>
           </div>
-          <p className="text-sm text-[#e2d4cf] font-sans leading-relaxed">
+          <p className="text-sm text-text-secondary font-sans leading-relaxed">
             The safety engine intercepted this request before touching the database. No records were modified or deleted.
           </p>
         </div>
@@ -76,16 +76,16 @@ export default function SafetyBlockedCard({ result, onAcknowledge, onRevise }) {
 
       {/* Explanations for each flagged risk */}
       <div className="space-y-4">
-        <h4 className="text-xs font-bold uppercase tracking-wider text-[#9c8a8e] font-mono">
+        <h4 className="text-xs font-bold uppercase tracking-wider text-text-muted font-mono">
           Why this query was blocked:
         </h4>
 
         {flags.length === 0 ? (
-          <div className="p-4 rounded-2xl bg-black/50 border border-[#E63946]/30 space-y-1">
-            <p className="text-sm font-semibold text-[#E63946]">
+          <div className="p-4 rounded-2xl bg-black/50 border border-c3/30 space-y-1">
+            <p className="text-sm font-semibold text-c3">
               Deterministic Safety Rule Violated
             </p>
-            <p className="text-xs text-[#9c8a8e]">
+            <p className="text-xs text-text-muted">
               The operation was determined to be unsafe under standard database security policies.
             </p>
           </div>
@@ -100,26 +100,26 @@ export default function SafetyBlockedCard({ result, onAcknowledge, onRevise }) {
             return (
               <div
                 key={flag}
-                className="p-5 rounded-2xl bg-[#210d14] border border-[#E63946]/40 space-y-3"
+                className="p-5 rounded-2xl bg-bg-elevated border border-c3/40 space-y-3"
               >
-                <div className="flex items-center gap-2 text-[#E63946]">
+                <div className="flex items-center gap-2 text-c3">
                   <Lock size={15} />
-                  <span className="font-display font-bold text-sm text-[#FFF8F0]">
+                  <span className="font-display font-bold text-sm text-text-primary">
                     {exp.title}
                   </span>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#E63946]/20 text-[#E63946] ml-auto">
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-c3/20 text-c3 ml-auto">
                     {flag}
                   </span>
                 </div>
 
-                <p className="text-xs sm:text-sm text-[#e2d4cf] leading-relaxed font-sans">
+                <p className="text-xs sm:text-sm text-text-secondary leading-relaxed font-sans">
                   {exp.description}
                 </p>
 
-                <div className="flex items-start gap-2 pt-2 border-t border-[#8B1E2D] text-xs text-[#e2d4cf]">
-                  <Lightbulb size={14} className="text-[#F4D35E] shrink-0 mt-0.5" />
+                <div className="flex items-start gap-2 pt-2 border-t border-c4 text-xs text-text-secondary">
+                  <Lightbulb size={14} className="text-c2 shrink-0 mt-0.5" />
                   <span>
-                    <strong className="text-[#FFF8F0]">How to fix:</strong> {exp.guidance}
+                    <strong className="text-text-primary">How to fix:</strong> {exp.guidance}
                   </span>
                 </div>
               </div>
@@ -131,25 +131,25 @@ export default function SafetyBlockedCard({ result, onAcknowledge, onRevise }) {
       {/* Blocked SQL preview if available */}
       {result.generated_sql && (
         <div className="space-y-2">
-          <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-[#9c8a8e]">
+          <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-text-muted">
             Blocked SQL Statement (Not Executed)
           </span>
-          <pre className="p-4 rounded-xl bg-[#0f0608] border border-[#E63946]/40 text-xs font-mono text-[#E63946]/90 overflow-x-auto scrollbar-x leading-relaxed line-through decoration-[#E63946]/60">
+          <pre className="p-4 rounded-xl bg-bg-base border border-c3/40 text-xs font-mono text-c3/90 overflow-x-auto scrollbar-x leading-relaxed line-through decoration-c3/60">
             {result.generated_sql}
           </pre>
         </div>
       )}
 
       {/* User Acknowledgment & Recovery Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-[#8B1E2D]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-c4">
         <div className="flex items-center gap-2">
           {acknowledged ? (
-            <span className="flex items-center gap-1.5 text-xs text-[#F4D35E] font-semibold">
+            <span className="flex items-center gap-1.5 text-xs text-c2 font-semibold">
               <CheckCircle2 size={15} />
               You acknowledged this safety block. It will stay in workspace until you ask a new question.
             </span>
           ) : (
-            <span className="text-xs text-[#9c8a8e]">
+            <span className="text-xs text-text-muted">
               Please acknowledge this safety notice to proceed.
             </span>
           )}
@@ -160,7 +160,7 @@ export default function SafetyBlockedCard({ result, onAcknowledge, onRevise }) {
             <button
               type="button"
               onClick={onRevise}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold text-[#e2d4cf] hover:text-[#FFF8F0] bg-[#210d14] hover:bg-[#2b111a] border border-[#8B1E2D] transition-all"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold text-text-secondary hover:text-text-primary bg-bg-elevated hover:bg-bg-overlay border border-c4 transition-all"
             >
               <span>Revise Question</span>
               <ArrowRight size={13} />
@@ -173,7 +173,7 @@ export default function SafetyBlockedCard({ result, onAcknowledge, onRevise }) {
               onClick={handleAckClick}
               className="btn-3d-gold flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold"
             >
-              <CheckCircle2 size={15} className="text-[#0f0608]" />
+              <CheckCircle2 size={15} className="text-[#1a0e05]" />
               <span>I Acknowledge</span>
             </button>
           )}

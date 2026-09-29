@@ -1,22 +1,37 @@
 @import "tailwindcss";
 
+:root {
+  /* 4 Core Color Variables */
+  --theme-c1: #31AAA9; /* Primary Interactive & Accent (Teal) */
+  --theme-c2: #F8E0A4; /* Secondary Warm Accent (Champagne / Sand) */
+  --theme-c3: #A82020; /* Alert / Danger Accent (Crimson) */
+  --theme-c4: #6C1A1A; /* Structural Accent & Shadow Depth (Deep Maroon) */
+
+  /* Harmonized Background & Text Surfaces */
+  --theme-bg-base: #0a0607;
+  --theme-bg-surface: #120a0c;
+  --theme-bg-elevated: #1c1013;
+  --theme-bg-overlay: #261519;
+
+  --theme-text-primary: #FFFFFF;
+  --theme-text-secondary: #E2D9D4;
+  --theme-text-muted: #9E8C8F;
+}
+
 @theme {
-  --color-bg-base: #080e14;
-  --color-bg-surface: #0f1923;
-  --color-bg-elevated: #162230;
-  --color-bg-overlay: #1d2d3e;
-  --color-border: #457B9D;
-  --color-border-subtle: #1d3557;
+  --color-c1: var(--theme-c1);
+  --color-c2: var(--theme-c2);
+  --color-c3: var(--theme-c3);
+  --color-c4: var(--theme-c4);
 
-  --color-text-primary: #F8FAFC;
-  --color-text-secondary: #CBD5E1;
-  --color-text-muted: #849BB0;
+  --color-bg-base: var(--theme-bg-base);
+  --color-bg-surface: var(--theme-bg-surface);
+  --color-bg-elevated: var(--theme-bg-elevated);
+  --color-bg-overlay: var(--theme-bg-overlay);
 
-  --color-brand-blue: #457B9D;
-  --color-brand-blue-deep: #1D3557;
-  --color-brand-gold: #F4D35E;
-  --color-brand-coral: #E63946;
-  --color-brand-wine: #8B1E2D;
+  --color-text-primary: var(--theme-text-primary);
+  --color-text-secondary: var(--theme-text-secondary);
+  --color-text-muted: var(--theme-text-muted);
 
   --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -37,8 +52,8 @@
 
   html {
     font-family: var(--font-sans);
-    background-color: #080e14;
-    color: #F8FAFC;
+    background-color: var(--theme-bg-base);
+    color: var(--theme-text-primary);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
@@ -48,14 +63,14 @@
   body {
     margin: 0;
     min-height: 100vh;
-    background-color: #080e14;
-    color: #F8FAFC;
+    background-color: var(--theme-bg-base);
+    color: var(--theme-text-primary);
     font-family: var(--font-sans);
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    color: #F8FAFC;
+    color: var(--theme-text-primary);
     letter-spacing: -0.025em;
   }
 
@@ -66,7 +81,7 @@
   }
 
   :focus-visible {
-    outline: 2px solid #457B9D;
+    outline: 2px solid var(--theme-c1);
     outline-offset: 2px;
   }
 
@@ -76,14 +91,14 @@
     height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #080e14;
+    background: var(--theme-bg-base);
   }
   ::-webkit-scrollbar-thumb {
-    background: #1D3557;
+    background: var(--theme-c4);
     border-radius: 3px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #457B9D;
+    background: var(--theme-c1);
   }
 }
 
@@ -101,78 +116,94 @@
     font-family: var(--font-sans);
   }
 
+  /* 4 Core Color Semantic Classes */
+  .text-c1 { color: var(--theme-c1); }
+  .text-c2 { color: var(--theme-c2); }
+  .text-c3 { color: var(--theme-c3); }
+  .text-c4 { color: var(--theme-c4); }
+
+  .bg-c1 { background-color: var(--theme-c1); }
+  .bg-c2 { background-color: var(--theme-c2); }
+  .bg-c3 { background-color: var(--theme-c3); }
+  .bg-c4 { background-color: var(--theme-c4); }
+
+  .border-c1 { border-color: var(--theme-c1); }
+  .border-c2 { border-color: var(--theme-c2); }
+  .border-c3 { border-color: var(--theme-c3); }
+  .border-c4 { border-color: var(--theme-c4); }
+
   /* Thin Minimal Highlighters (Zero top-expansion to prevent overlapping upper lines) */
-  .hl-blue, .hl-lime {
+  .hl-teal, .hl-blue, .hl-lime, .hl-primary {
     display: inline;
-    color: #457B9D;
-    border-bottom: 2px solid #457B9D;
+    color: var(--theme-c1);
+    border-bottom: 2px solid var(--theme-c1);
     padding-bottom: 2px;
     font-weight: 700;
   }
 
-  .hl-gold {
+  .hl-gold, .hl-champagne, .hl-secondary {
     display: inline;
-    color: #F4D35E;
-    border-bottom: 2px solid #F4D35E;
+    color: var(--theme-c2);
+    border-bottom: 2px solid var(--theme-c2);
     padding-bottom: 2px;
     font-weight: 700;
   }
 
-  .hl-coral, .hl-red {
+  .hl-crimson, .hl-coral, .hl-red, .hl-danger {
     display: inline;
-    color: #E63946;
-    border-bottom: 2px solid #E63946;
+    color: var(--theme-c3);
+    border-bottom: 2px solid var(--theme-c3);
     padding-bottom: 2px;
     font-weight: 700;
   }
 
-  .hl-wine, .hl-plum {
+  .hl-maroon, .hl-wine, .hl-plum, .hl-structural {
     display: inline;
-    color: #F8FAFC;
-    border-bottom: 2px solid #8B1E2D;
+    color: var(--theme-c2);
+    border-bottom: 2px solid var(--theme-c4);
     padding-bottom: 2px;
     font-weight: 700;
   }
 
   /* Tactile 3D Depth Card & Button styles (No gradients, pure physical depth) */
   .card-3d {
-    background-color: #0f1923;
-    border: 1px solid #457B9D;
-    box-shadow: 0 4px 0 0 #284b63, 0 10px 25px rgba(0, 0, 0, 0.7);
+    background-color: var(--theme-bg-surface);
+    border: 1px solid var(--theme-c4);
+    box-shadow: 0 4px 0 0 color-mix(in srgb, var(--theme-c4) 65%, black), 0 10px 25px rgba(0, 0, 0, 0.7);
   }
 
   /* Glassmorphic Surfaces (Frosted translucent layers with solid borders - NO gradients) */
   .glass-card-3d {
-    background-color: rgba(15, 25, 35, 0.84);
+    background-color: color-mix(in srgb, var(--theme-bg-surface) 86%, transparent);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
-    border: 1px solid rgba(69, 123, 157, 0.65);
-    box-shadow: 0 4px 0 0 #284b63, 0 20px 40px -10px rgba(0, 0, 0, 0.75);
+    border: 1px solid color-mix(in srgb, var(--theme-c4) 65%, transparent);
+    box-shadow: 0 4px 0 0 color-mix(in srgb, var(--theme-c4) 65%, black), 0 20px 40px -10px rgba(0, 0, 0, 0.85);
     transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
   }
 
   .glass-card-3d:hover {
-    border-color: #457B9D;
-    box-shadow: 0 6px 0 0 #284b63, 0 24px 48px -10px rgba(0, 0, 0, 0.85);
+    border-color: var(--theme-c1);
+    box-shadow: 0 5px 0 0 color-mix(in srgb, var(--theme-c1) 50%, black), 0 24px 48px -10px rgba(0, 0, 0, 0.9);
   }
 
   .glass-panel {
-    background-color: rgba(22, 34, 48, 0.78);
+    background-color: color-mix(in srgb, var(--theme-bg-elevated) 78%, transparent);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    border: 1px solid rgba(69, 123, 157, 0.45);
+    border: 1px solid color-mix(in srgb, var(--theme-c4) 50%, transparent);
     transition: transform 0.2s ease, border-color 0.2s ease;
   }
 
   .glass-header {
-    background-color: rgba(8, 14, 20, 0.88);
+    background-color: color-mix(in srgb, var(--theme-bg-base) 92%, transparent);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(69, 123, 157, 0.5);
+    border-bottom: 1px solid color-mix(in srgb, var(--theme-c4) 60%, transparent);
   }
 
   .glass-input {
-    background-color: rgba(15, 25, 35, 0.75);
+    background-color: color-mix(in srgb, var(--theme-bg-surface) 75%, transparent);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
   }
@@ -181,15 +212,15 @@
   .bg-grid-lines {
     background-size: 36px 36px;
     background-image: 
-      linear-gradient(to right, rgba(69, 123, 157, 0.28) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(69, 123, 157, 0.28) 1px, transparent 1px);
+      linear-gradient(to right, color-mix(in srgb, var(--theme-c1) 16%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in srgb, var(--theme-c1) 16%, transparent) 1px, transparent 1px);
   }
 
   .bg-grid-dense {
     background-size: 18px 18px;
     background-image: 
-      linear-gradient(to right, rgba(69, 123, 157, 0.14) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(69, 123, 157, 0.14) 1px, transparent 1px);
+      linear-gradient(to right, color-mix(in srgb, var(--theme-c4) 25%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in srgb, var(--theme-c4) 25%, transparent) 1px, transparent 1px);
   }
 
   /* Micro-Motion Animations */
@@ -251,59 +282,61 @@
     animation: sweepLine 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   }
 
-  /* 3D Mechanical Action Buttons - Blue Primary */
-  .btn-3d-blue, .btn-3d-lime, .btn-3d-cyan {
-    background-color: #457B9D;
-    color: #F8FAFC;
+  /* 3D Mechanical Action Buttons - c1 Primary (Teal) */
+  .btn-3d-teal, .btn-3d-blue, .btn-3d-primary {
+    background-color: var(--theme-c1);
+    color: #061515;
     font-weight: 700;
-    border: 1px solid #6398ba;
-    box-shadow: 0 3px 0 0 #284b63;
+    border: 1px solid color-mix(in srgb, var(--theme-c1) 85%, white);
+    box-shadow: 0 3px 0 0 color-mix(in srgb, var(--theme-c1) 50%, black);
     transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.15s ease;
   }
-  .btn-3d-blue:hover, .btn-3d-lime:hover, .btn-3d-cyan:hover {
-    background-color: #5289ab;
+  .btn-3d-teal:hover, .btn-3d-blue:hover, .btn-3d-primary:hover {
+    background-color: color-mix(in srgb, var(--theme-c1) 90%, white);
     transform: translateY(-1px);
-    box-shadow: 0 4px 0 0 #284b63;
+    box-shadow: 0 4px 0 0 color-mix(in srgb, var(--theme-c1) 50%, black);
   }
-  .btn-3d-blue:active, .btn-3d-lime:active, .btn-3d-cyan:active {
+  .btn-3d-teal:active, .btn-3d-blue:active, .btn-3d-primary:active {
     transform: translateY(2px);
-    box-shadow: 0 1px 0 0 #284b63;
+    box-shadow: 0 1px 0 0 color-mix(in srgb, var(--theme-c1) 50%, black);
   }
 
-  .btn-3d-gold {
-    background-color: #F4D35E;
-    color: #080e14;
+  /* 3D Mechanical Action Buttons - c2 Secondary (Champagne / Gold) */
+  .btn-3d-gold, .btn-3d-champagne, .btn-3d-secondary {
+    background-color: var(--theme-c2);
+    color: #1a0e05;
     font-weight: 700;
-    border: 1px solid #fae28b;
-    box-shadow: 0 3px 0 0 #c2a135;
+    border: 1px solid color-mix(in srgb, var(--theme-c2) 85%, white);
+    box-shadow: 0 3px 0 0 color-mix(in srgb, var(--theme-c2) 55%, black);
     transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.15s ease;
   }
-  .btn-3d-gold:hover {
-    background-color: #fae17f;
+  .btn-3d-gold:hover, .btn-3d-champagne:hover, .btn-3d-secondary:hover {
+    background-color: color-mix(in srgb, var(--theme-c2) 90%, white);
     transform: translateY(-1px);
-    box-shadow: 0 4px 0 0 #c2a135;
+    box-shadow: 0 4px 0 0 color-mix(in srgb, var(--theme-c2) 55%, black);
   }
-  .btn-3d-gold:active {
+  .btn-3d-gold:active, .btn-3d-champagne:active, .btn-3d-secondary:active {
     transform: translateY(2px);
-    box-shadow: 0 1px 0 0 #c2a135;
+    box-shadow: 0 1px 0 0 color-mix(in srgb, var(--theme-c2) 55%, black);
   }
 
+  /* 3D Mechanical Action Buttons - c3 Crimson Danger */
   .btn-3d-danger {
-    background-color: #E63946;
-    color: #F8FAFC;
+    background-color: var(--theme-c3);
+    color: #FFFFFF;
     font-weight: 700;
-    border: 1px solid #ec5863;
-    box-shadow: 0 3px 0 0 #a8242f;
+    border: 1px solid color-mix(in srgb, var(--theme-c3) 85%, white);
+    box-shadow: 0 3px 0 0 var(--theme-c4);
     transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.15s ease;
   }
   .btn-3d-danger:hover {
-    background-color: #ec4856;
+    background-color: color-mix(in srgb, var(--theme-c3) 90%, white);
     transform: translateY(-1px);
-    box-shadow: 0 4px 0 0 #a8242f;
+    box-shadow: 0 4px 0 0 var(--theme-c4);
   }
   .btn-3d-danger:active {
     transform: translateY(2px);
-    box-shadow: 0 1px 0 0 #a8242f;
+    box-shadow: 0 1px 0 0 var(--theme-c4);
   }
 
   .scrollbar-x {

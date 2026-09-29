@@ -56,31 +56,31 @@ export default function ClarificationPanel({ question, threadId: _threadId, onSu
     <motion.div
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      className="card-3d rounded-2xl border border-[#FF9100]/50 bg-[#160d19] p-5 sm:p-6 space-y-4 font-sans"
+      className="card-3d rounded-2xl border border-c1/60 bg-bg-surface p-5 sm:p-6 space-y-4 font-sans shadow-md"
     >
       {/* Header */}
-      <div className="flex items-center gap-2.5 pb-3 border-b border-[#FF9100]/25">
-        <div className="h-7 w-7 rounded-lg bg-[#FF9100]/20 flex items-center justify-center text-[#FF9100]">
+      <div className="flex items-center gap-2.5 pb-3 border-b border-c1/25">
+        <div className="h-7 w-7 rounded-lg bg-c1/20 flex items-center justify-center text-c1">
           <HelpCircle size={16} />
         </div>
         <div>
-          <h4 className="font-display font-bold text-sm text-[#FFF1D1] flex items-center gap-2">
+          <h4 className="font-display font-bold text-sm text-text-primary flex items-center gap-2">
             Targeted Clarification
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#FF9100]/20 text-[#FF9100] font-semibold uppercase">
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-c1/20 text-c1 font-semibold uppercase">
               Needs your input
             </span>
           </h4>
-          <p className="text-xs text-[#8c826c]">
+          <p className="text-xs text-text-muted">
             The assistant detected ambiguity and needs precise scope before generating SQL.
           </p>
         </div>
       </div>
 
       {/* Question */}
-      <div className="p-4 rounded-xl bg-[#0d0611] border border-[#450C3F] space-y-2">
+      <div className="p-4 rounded-xl bg-bg-base border border-c4 space-y-2">
         <div className="flex items-start gap-2">
-          <MessageSquare size={15} className="text-[#00B7CD] shrink-0 mt-0.5" />
-          <p className="text-sm sm:text-base text-[#FFF1D1] leading-relaxed font-sans">
+          <MessageSquare size={15} className="text-c1 shrink-0 mt-0.5" />
+          <p className="text-sm sm:text-base text-text-primary leading-relaxed font-sans">
             {hasQuestion ? questionText : 'Could you specify the exact scope or details for your request?'}
           </p>
         </div>
@@ -89,7 +89,7 @@ export default function ClarificationPanel({ question, threadId: _threadId, onSu
       {/* Quick Click Suggestion Pills */}
       {suggestions.length > 0 && (
         <div className="space-y-1.5">
-          <span className="text-[11px] font-mono font-semibold text-[#8c826c] uppercase tracking-wider">
+          <span className="text-[11px] font-mono font-semibold text-text-muted uppercase tracking-wider">
             One-Click Suggestions:
           </span>
           <div className="flex flex-wrap gap-2">
@@ -99,9 +99,9 @@ export default function ClarificationPanel({ question, threadId: _threadId, onSu
                 type="button"
                 onClick={() => handleSubmit(sug)}
                 disabled={loading}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#1d0f28] hover:bg-[#271435] border border-[#450C3F] hover:border-[#B9D175] text-xs text-[#d1c5a9] hover:text-[#FFF1D1] transition-all text-left active:scale-95"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-bg-elevated hover:bg-bg-overlay border border-c4 hover:border-c1 text-xs text-text-secondary hover:text-text-primary transition-all text-left active:scale-95"
               >
-                <CheckCircle2 size={12} className="text-[#B9D175]" />
+                <CheckCircle2 size={12} className="text-c1" />
                 <span>{sug}</span>
               </button>
             ))}
@@ -119,9 +119,9 @@ export default function ClarificationPanel({ question, threadId: _threadId, onSu
           disabled={loading}
           rows={2}
           className={[
-            'w-full bg-[#0d0611] border border-[#450C3F] rounded-xl px-4 py-2.5',
-            'text-sm text-[#FFF1D1] placeholder-[#8c826c] font-sans',
-            'focus:outline-none focus:border-[#00B7CD] focus:ring-1 focus:ring-[#00B7CD]/40 transition-all',
+            'w-full bg-bg-base border border-c4 rounded-xl px-4 py-2.5',
+            'text-sm text-text-primary placeholder-text-muted font-sans',
+            'focus:outline-none focus:border-c1 focus:ring-1 focus:ring-c1/40 transition-all',
             'resize-none disabled:opacity-60',
           ].join(' ')}
           aria-label="Clarification answer"
@@ -132,7 +132,7 @@ export default function ClarificationPanel({ question, threadId: _threadId, onSu
             type="button"
             onClick={handleSkip}
             disabled={loading}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold text-[#d1c5a9] hover:text-[#FFF1D1] bg-[#1d0f28] hover:bg-[#271435] border border-[#450C3F] transition-colors"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold text-text-secondary hover:text-text-primary bg-bg-elevated hover:bg-bg-overlay border border-c4 transition-colors"
           >
             <FastForward size={13} />
             <span>Skip — use standard defaults</span>
@@ -142,10 +142,10 @@ export default function ClarificationPanel({ question, threadId: _threadId, onSu
             type="button"
             onClick={() => handleSubmit()}
             disabled={loading || !answer.trim()}
-            className="btn-3d-lime flex items-center gap-1.5 px-5 py-2 rounded-xl text-xs sm:text-sm font-bold disabled:opacity-40 disabled:cursor-not-allowed"
+            className="btn-3d-teal flex items-center gap-1.5 px-5 py-2 rounded-xl text-xs sm:text-sm font-bold disabled:opacity-40 disabled:cursor-not-allowed"
           >
             <span>Continue &amp; Generate SQL</span>
-            <ChevronRight size={14} className="text-[#0d0611]" />
+            <ChevronRight size={14} className="text-[#061515]" />
           </button>
         </div>
       </div>

@@ -48,28 +48,28 @@ export default function DatabasePage() {
   });
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 font-sans">
       {/* Top Header & Tab Switcher */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-[#450C3F]">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-c4">
         <div>
-          <h3 className="font-display font-bold text-2xl text-[#FFF1D1] tracking-tight flex items-center gap-2.5">
-            <Database className="text-[#B9D175]" size={22} />
+          <h3 className="font-display font-bold text-2xl text-text-primary tracking-tight flex items-center gap-2.5">
+            <Database className="text-c1" size={22} />
             Sandbox Database Explorer
           </h3>
-          <p className="text-sm text-[#d1c5a9] mt-1">
-            Separated into <span className="hl-lime">Live Table Records</span> and <span className="hl-plum">Data Model Schema</span>.
+          <p className="text-sm text-text-secondary mt-1">
+            Separated into <span className="hl-teal">Live Table Records</span> and <span className="hl-gold">Data Model Schema</span>.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
           {/* Tabs */}
-          <div className="flex p-1 bg-[#140a1b] border border-[#450C3F] rounded-xl">
+          <div className="flex p-1 bg-bg-surface border border-c4 rounded-xl">
             <button
               onClick={() => setActiveTab('data')}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
                 activeTab === 'data'
-                  ? 'bg-[#B9D175] text-[#0d0611] shadow-[0_2px_0_0_#8fa64a]'
-                  : 'text-[#d1c5a9] hover:text-[#FFF1D1]'
+                  ? 'btn-3d-teal'
+                  : 'text-text-secondary hover:text-text-primary'
               }`}
             >
               <Table size={14} />
@@ -79,8 +79,8 @@ export default function DatabasePage() {
               onClick={() => setActiveTab('schema')}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
                 activeTab === 'schema'
-                  ? 'bg-[#B9D175] text-[#0d0611] shadow-[0_2px_0_0_#8fa64a]'
-                  : 'text-[#d1c5a9] hover:text-[#FFF1D1]'
+                  ? 'btn-3d-teal'
+                  : 'text-text-secondary hover:text-text-primary'
               }`}
             >
               <Layers size={14} />
@@ -91,10 +91,10 @@ export default function DatabasePage() {
           <button
             onClick={fetchSchema}
             disabled={schemaStatus === 'loading'}
-            className="p-2.5 rounded-xl border border-[#450C3F] hover:border-[#B9D175] bg-[#1d0f28] text-[#d1c5a9] hover:text-[#FFF1D1] transition-colors"
+            className="p-2.5 rounded-xl border border-c4 hover:border-c1 bg-bg-elevated text-text-secondary hover:text-text-primary transition-colors"
             title="Refresh database records"
           >
-            <RefreshCw size={14} className={schemaStatus === 'loading' ? 'animate-spin' : ''} />
+            <RefreshCw size={14} className={schemaStatus === 'loading' ? 'animate-spin text-c1' : ''} />
           </button>
         </div>
       </div>
@@ -102,17 +102,17 @@ export default function DatabasePage() {
       {/* Loading State */}
       {schemaStatus === 'loading' && (
         <div className="p-12 text-center space-y-4">
-          <div className="inline-block h-8 w-8 animate-spin rounded-full border-2 border-[#B9D175] border-t-transparent" />
-          <p className="text-sm text-[#d1c5a9] font-medium">Connecting to sandbox database…</p>
+          <div className="inline-block h-8 w-8 animate-spin rounded-full border-2 border-c1 border-t-transparent" />
+          <p className="text-sm text-text-secondary font-medium">Connecting to sandbox database…</p>
         </div>
       )}
 
       {/* Unavailable */}
       {schemaStatus === 'unavailable' && (
-        <div className="p-8 rounded-2xl border border-[#FF9100]/40 glass-panel text-center space-y-2">
-          <AlertCircle className="mx-auto text-[#FF9100]" size={28} />
-          <h4 className="text-base font-semibold text-[#FFF1D1]">Database schema unavailable</h4>
-          <p className="text-xs text-[#d1c5a9] max-w-md mx-auto">
+        <div className="p-8 rounded-2xl border border-c3/40 glass-panel text-center space-y-2">
+          <AlertCircle className="mx-auto text-c3" size={28} />
+          <h4 className="text-base font-semibold text-text-primary">Database schema unavailable</h4>
+          <p className="text-xs text-text-secondary max-w-md mx-auto">
             Unable to connect to the backend SQLite sandbox. Ensure your local server is running on port 8000.
           </p>
         </div>
@@ -130,7 +130,7 @@ export default function DatabasePage() {
             >
               {/* Table Selection Pills */}
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-xs font-semibold uppercase tracking-wider text-[#8c826c] mr-2">
+                <span className="text-xs font-semibold uppercase tracking-wider text-text-muted mr-2">
                   Select Table:
                 </span>
                 {schema.map((tbl) => {
@@ -144,13 +144,13 @@ export default function DatabasePage() {
                       }}
                       className={`px-4 py-2 rounded-xl text-xs font-semibold font-mono transition-all flex items-center gap-2 ${
                         isSelected
-                          ? 'bg-[#B9D175] text-[#0d0611] font-bold shadow-[0_2px_0_0_#8fa64a]'
-                          : 'bg-[#1d0f28] text-[#d1c5a9] border border-[#450C3F] hover:border-[#B9D175] hover:text-[#FFF1D1]'
+                          ? 'btn-3d-teal'
+                          : 'bg-bg-elevated text-text-secondary border border-c4 hover:border-c1 hover:text-text-primary'
                       }`}
                     >
-                      <Table size={13} className={isSelected ? 'text-[#0d0611]' : 'text-[#B9D175]'} />
+                      <Table size={13} className={isSelected ? 'text-inherit' : 'text-c1'} />
                       <span>{tbl.name}</span>
-                      <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${isSelected ? 'bg-black/20 text-[#0d0611]' : 'bg-[#450C3F] text-[#d1c5a9]'}`}>
+                      <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${isSelected ? 'bg-black/20 text-inherit' : 'bg-c4 text-text-secondary'}`}>
                         {tbl.data?.length || 0}
                       </span>
                     </button>
@@ -160,31 +160,31 @@ export default function DatabasePage() {
 
               {/* Table Info & Search Banner */}
               {selectedTable && (
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-[#140a1b] border border-[#450C3F]">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-bg-surface border border-c4">
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="font-mono font-bold text-base text-[#FFF1D1]">{selectedTable.name}</span>
-                      <span className="hl-lime text-xs">
+                      <span className="font-mono font-bold text-base text-text-primary">{selectedTable.name}</span>
+                      <span className="hl-teal text-xs">
                         {selectedTable.columns.length} columns
                       </span>
-                      <span className="text-xs text-[#8c826c]">
+                      <span className="text-xs text-text-muted">
                         • {selectedTable.data?.length || 0} total records
                       </span>
                     </div>
-                    <p className="text-xs text-[#d1c5a9] mt-1">
+                    <p className="text-xs text-text-secondary mt-1">
                       {TABLE_DESCRIPTIONS[selectedTable.name] || 'Active SQLite sandbox table.'}
                     </p>
                   </div>
 
                   {/* Search records */}
                   <div className="relative min-w-[240px]">
-                    <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8c826c]" />
+                    <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
                     <input
                       type="text"
                       value={searchFilter}
                       onChange={(e) => setSearchFilter(e.target.value)}
                       placeholder={`Filter in ${selectedTable.name}…`}
-                      className="w-full pl-9 pr-3 py-1.5 text-xs bg-[#0d0611] border border-[#450C3F] rounded-lg text-[#FFF1D1] placeholder-[#8c826c] focus:outline-none focus:border-[#00B7CD] transition-colors"
+                      className="w-full pl-9 pr-3 py-1.5 text-xs bg-bg-base border border-c4 rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-c1 transition-colors"
                     />
                   </div>
                 </div>
@@ -192,10 +192,10 @@ export default function DatabasePage() {
 
               {/* Data Table */}
               {selectedTable && (
-                <div className="rounded-2xl border border-white/[0.08] bg-[#0c0d12] overflow-hidden shadow-2xl">
+                <div className="rounded-2xl border border-c4 bg-bg-base overflow-hidden shadow-2xl">
                   <div className="overflow-x-auto scrollbar-x max-h-[460px]">
-                    <table className="min-w-full text-xs text-left divide-y divide-white/[0.06]">
-                      <thead className="bg-[#12141a] text-gray-300 font-mono sticky top-0 z-10">
+                    <table className="min-w-full text-xs text-left divide-y divide-c4/40 font-mono">
+                      <thead className="bg-bg-elevated text-c2 sticky top-0 z-10 border-b border-c4">
                         <tr>
                           {selectedTable.columns.map((col) => (
                             <th
@@ -203,8 +203,8 @@ export default function DatabasePage() {
                               className="px-5 py-3.5 font-semibold tracking-wider whitespace-nowrap"
                             >
                               <div className="flex items-center gap-1.5">
-                                <span className="text-white">{col.name}</span>
-                                <span className="text-[10px] px-1 py-0.2 rounded bg-white/[0.06] text-gray-400 font-normal">
+                                <span className="text-text-primary">{col.name}</span>
+                                <span className="text-[10px] px-1.5 py-0.5 rounded bg-bg-surface text-text-muted border border-c4/40 font-normal">
                                   {col.type || 'TEXT'}
                                 </span>
                               </div>
@@ -212,12 +212,12 @@ export default function DatabasePage() {
                           ))}
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-white/[0.04] font-mono">
+                      <tbody className="divide-y divide-c4/20">
                         {filteredData.length === 0 ? (
                           <tr>
                             <td
                               colSpan={selectedTable.columns.length}
-                              className="px-6 py-12 text-center text-gray-500"
+                              className="px-6 py-12 text-center text-text-muted"
                             >
                               No records match &quot;{searchFilter}&quot;
                             </td>
@@ -226,7 +226,7 @@ export default function DatabasePage() {
                           filteredData.map((row, idx) => (
                             <tr
                               key={idx}
-                              className="hover:bg-white/[0.03] transition-colors"
+                              className="hover:bg-bg-elevated/60 transition-colors"
                             >
                               {selectedTable.columns.map((col) => {
                                 const val = row[col.name];
@@ -236,12 +236,12 @@ export default function DatabasePage() {
                                 return (
                                   <td
                                     key={col.name}
-                                    className="px-5 py-3 whitespace-nowrap text-gray-300"
+                                    className="px-5 py-3 whitespace-nowrap text-text-secondary"
                                   >
                                     {val === null ? (
-                                      <span className="text-gray-600 italic">null</span>
+                                      <span className="text-text-muted italic">null</span>
                                     ) : isId ? (
-                                      <span className="hl-neutral font-semibold text-[11px]">
+                                      <span className="hl-teal font-semibold text-[11px]">
                                         #{val}
                                       </span>
                                     ) : isStatus ? (
@@ -250,8 +250,8 @@ export default function DatabasePage() {
                                           String(val).toLowerCase() === 'delivered' ||
                                           String(val).toLowerCase() === 'active' ||
                                           String(val).toLowerCase() === 'completed'
-                                            ? 'hl-green'
-                                            : 'hl-orange'
+                                            ? 'hl-teal'
+                                            : 'hl-gold'
                                         }`}
                                       >
                                         {String(val)}
@@ -268,11 +268,11 @@ export default function DatabasePage() {
                       </tbody>
                     </table>
                   </div>
-                  <div className="px-5 py-3 bg-[#12141a]/60 border-t border-white/[0.06] flex items-center justify-between text-[11px] text-gray-400 font-mono">
+                  <div className="px-5 py-3 bg-bg-surface border-t border-c4 flex items-center justify-between text-[11px] text-text-muted font-mono">
                     <span>
                       Showing {filteredData.length} of {selectedTable.data?.length || 0} rows
                     </span>
-                    <span className="text-gray-500">SQLite Sandbox Isolation</span>
+                    <span className="text-text-muted">SQLite Sandbox Isolation</span>
                   </div>
                 </div>
               )}
@@ -286,8 +286,8 @@ export default function DatabasePage() {
               animate={{ opacity: 1, y: 0 }}
               className="space-y-6"
             >
-              <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] text-xs text-gray-400">
-                <span className="hl-green font-semibold">Schema Architecture</span> defines the exact structure and relational keys used by the SQL agent. The agent strictly reads this schema and cannot hallucinate foreign tables or delete columns.
+              <div className="p-4 rounded-xl bg-bg-surface border border-c4 text-xs text-text-secondary">
+                <span className="hl-teal font-semibold">Schema Architecture</span> defines the exact structure and relational keys used by the SQL agent. The agent strictly reads this schema and cannot hallucinate foreign tables or delete columns.
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -299,21 +299,21 @@ export default function DatabasePage() {
                     <div className="flex items-start justify-between">
                       <div className="space-y-1">
                         <div className="flex items-center gap-2">
-                          <Table size={16} className="text-[#B9D175]" />
-                          <h4 className="font-mono font-bold text-lg text-[#FFF1D1]">
+                          <Table size={16} className="text-c1" />
+                          <h4 className="font-mono font-bold text-lg text-text-primary">
                             {tbl.name}
                           </h4>
                         </div>
-                        <p className="text-xs text-[#d1c5a9]">
+                        <p className="text-xs text-text-secondary">
                           {TABLE_DESCRIPTIONS[tbl.name] || 'Application data table.'}
                         </p>
                       </div>
-                      <span className="hl-plum text-[11px] font-mono">
+                      <span className="hl-gold text-[11px] font-mono">
                         {tbl.columns.length} columns
                       </span>
                     </div>
 
-                    <div className="space-y-1.5 pt-2 border-t border-[#450C3F]">
+                    <div className="space-y-1.5 pt-2 border-t border-c4">
                       {tbl.columns.map((col) => {
                         const isPrimaryKey = col.name.toLowerCase() === 'id';
                         const isForeignKey = col.name.toLowerCase().endsWith('_id');
@@ -322,32 +322,32 @@ export default function DatabasePage() {
                         return (
                           <div
                             key={col.name}
-                            className="flex items-center justify-between py-1.5 px-3 rounded-lg bg-[#1d0f28] text-xs font-mono group hover:bg-[#271435] transition-colors"
+                            className="flex items-center justify-between py-1.5 px-3 rounded-lg bg-bg-elevated text-xs font-mono group hover:bg-bg-overlay border border-c4/30 transition-colors"
                           >
                             <div className="flex items-center gap-2">
                               {isPrimaryKey ? (
-                                <Key size={12} className="text-[#B9D175]" />
+                                <Key size={12} className="text-c1" />
                               ) : isForeignKey ? (
-                                <Hash size={12} className="text-[#FF9100]" />
+                                <Hash size={12} className="text-c2" />
                               ) : type.includes('INT') || type.includes('REAL') ? (
-                                <Hash size={12} className="text-[#8c826c]" />
+                                <Hash size={12} className="text-text-muted" />
                               ) : (
-                                <Type size={12} className="text-[#8c826c]" />
+                                <Type size={12} className="text-text-muted" />
                               )}
-                              <span className="text-[#FFF1D1] font-medium">{col.name}</span>
+                              <span className="text-text-primary font-medium">{col.name}</span>
                               {isPrimaryKey && (
-                                <span className="hl-lime text-[9px] px-1 py-0.2 rounded font-bold uppercase">
+                                <span className="hl-teal text-[9px] px-1 py-0.2 rounded font-bold uppercase">
                                   PK
                                 </span>
                               )}
                               {isForeignKey && (
-                                <span className="hl-orange text-[9px] px-1 py-0.2 rounded font-bold uppercase">
+                                <span className="hl-gold text-[9px] px-1 py-0.2 rounded font-bold uppercase">
                                   FK
                                 </span>
                               )}
                             </div>
 
-                            <span className="text-[11px] text-gray-400 font-semibold">
+                            <span className="text-[11px] text-text-muted font-semibold">
                               {type}
                             </span>
                           </div>

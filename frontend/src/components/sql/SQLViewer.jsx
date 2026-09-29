@@ -19,10 +19,10 @@ export default function SQLViewer({ sql, onEdit, showEditButton = true }) {
   };
 
   return (
-    <div className="card-3d rounded-xl border border-[#450C3F] bg-[#0d0611] overflow-hidden">
+    <div className="card-3d rounded-xl border border-c4 bg-bg-surface overflow-hidden">
       {/* Toolbar */}
-      <div className="flex items-center justify-between px-4 py-2.5 border-b border-[#450C3F] bg-[#140a1b]">
-        <p className="text-[10px] font-mono font-bold text-[#8c826c] uppercase tracking-widest">
+      <div className="flex items-center justify-between px-4 py-2.5 border-b border-c4 bg-bg-elevated">
+        <p className="text-[10px] font-mono font-bold text-text-muted uppercase tracking-widest">
           Compiled SQL Statement
         </p>
         <div className="flex items-center gap-2">
@@ -30,9 +30,9 @@ export default function SQLViewer({ sql, onEdit, showEditButton = true }) {
             variant="ghost"
             size="xs"
             onClick={handleCopy}
-            leftIcon={copied ? <Check size={12} className="text-[#B9D175]" /> : <Copy size={12} />}
+            leftIcon={copied ? <Check size={12} className="text-c1" /> : <Copy size={12} />}
             aria-label="Copy SQL to clipboard"
-            className={copied ? 'text-[#B9D175]' : 'text-[#d1c5a9] hover:text-[#FFF1D1]'}
+            className={copied ? 'text-c1' : 'text-text-secondary hover:text-text-primary'}
           >
             {copied ? 'Copied' : 'Copy'}
           </Button>
@@ -43,7 +43,7 @@ export default function SQLViewer({ sql, onEdit, showEditButton = true }) {
               onClick={onEdit}
               leftIcon={<Edit3 size={12} />}
               aria-label="Edit SQL"
-              className="text-[#d1c5a9] hover:text-[#FFF1D1]"
+              className="text-text-secondary hover:text-text-primary"
             >
               Edit
             </Button>
@@ -53,7 +53,7 @@ export default function SQLViewer({ sql, onEdit, showEditButton = true }) {
 
       {/* SQL Code */}
       <div className="overflow-x-auto scrollbar-x">
-        <pre className="px-4 py-4 text-sm font-mono text-[#FFF1D1] leading-6 min-w-max whitespace-pre bg-[#0d0611]">
+        <pre className="px-4 py-4 text-sm font-mono text-text-primary leading-6 min-w-max whitespace-pre bg-bg-base">
           <SQLHighlighter sql={sql} />
         </pre>
       </div>
@@ -63,7 +63,7 @@ export default function SQLViewer({ sql, onEdit, showEditButton = true }) {
 
 /**
  * Minimal SQL syntax highlighter using regex.
- * Highlights keywords, strings, numbers, and comments.
+ * Highlights keywords, strings, numbers, and comments with centralized CSS variables.
  */
 function SQLHighlighter({ sql }) {
   if (!sql) return null;
@@ -75,11 +75,11 @@ function SQLHighlighter({ sql }) {
   const OPERATORS = /([=<>!]+|,)/g;
 
   const patterns = [
-    { regex: COMMENTS, color: '#8c826c', italic: true },
-    { regex: STRINGS, color: '#B9D175' },
-    { regex: KEYWORDS, color: '#00B7CD', bold: true },
-    { regex: NUMBERS, color: '#FF9100' },
-    { regex: OPERATORS, color: '#FFF1D1' },
+    { regex: COMMENTS, color: 'var(--theme-text-muted)', italic: true },
+    { regex: STRINGS, color: 'var(--theme-c2)' },
+    { regex: KEYWORDS, color: 'var(--theme-c1)', bold: true },
+    { regex: NUMBERS, color: 'var(--theme-c2)' },
+    { regex: OPERATORS, color: 'var(--theme-text-primary)' },
   ];
 
   // Combined approach: split and colorize
@@ -120,7 +120,7 @@ function tokenize(sql, patterns) {
     // Find which pattern matched
     let groupStart = 1;
     for (let i = 0; i < patterns.length; i++) {
-      const groupCount = patterns[i].regex.source.split('(').length; // rough group count
+      const groupCount = patterns[i].regex.source.split('(').length;
       if (match[groupStart] !== undefined) {
         tokens.push({ text: match[0], style: patterns[i] });
         break;

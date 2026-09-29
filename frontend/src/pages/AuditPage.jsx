@@ -78,13 +78,13 @@ export default function AuditPage() {
       />
 
       {/* Top Header & Search Bar */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-[#450C3F]">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-c4">
         <div>
-          <h3 className="font-display font-bold text-2xl text-[#FFF1D1] tracking-tight flex items-center gap-2.5">
-            <Shield className="text-[#B9D175]" size={22} />
+          <h3 className="font-display font-bold text-2xl text-text-primary tracking-tight flex items-center gap-2.5">
+            <Shield className="text-c1" size={22} />
             Security &amp; Activity Audit Log
           </h3>
-          <p className="text-sm text-[#d1c5a9] mt-1 font-sans">
+          <p className="text-sm text-text-secondary mt-1 font-sans">
             Every query, safety check, and human approval decision is recorded for full compliance.
           </p>
         </div>
@@ -92,29 +92,29 @@ export default function AuditPage() {
         <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
           {/* Search */}
           <div className="relative flex-1 sm:flex-initial min-w-[200px]">
-            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8c826c]" />
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search audit trail…"
-              className="w-full pl-9 pr-3 py-1.5 text-xs bg-[#0d0611] border border-[#450C3F] rounded-xl text-[#FFF1D1] placeholder-[#8c826c] focus:outline-none focus:border-[#00B7CD] transition-colors"
+              className="w-full pl-9 pr-3 py-1.5 text-xs bg-bg-base border border-c4 rounded-xl text-text-primary placeholder-text-muted focus:outline-none focus:border-c1 transition-colors"
             />
           </div>
 
           <button
             onClick={fetchLogs}
             disabled={loading}
-            className="p-2.5 rounded-xl border border-[#450C3F] hover:border-[#B9D175] bg-[#1d0f28] text-[#d1c5a9] hover:text-[#FFF1D1] transition-colors"
+            className="p-2.5 rounded-xl border border-c4 hover:border-c1 bg-bg-elevated text-text-secondary hover:text-text-primary transition-colors"
             title="Refresh logs"
           >
-            <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
+            <RefreshCw size={14} className={loading ? 'animate-spin text-c1' : ''} />
           </button>
 
           {logs.length > 0 && (
             <button
               onClick={() => setShowClearModal(true)}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-[#DF301C] hover:text-[#FFF1D1] bg-[#DF301C]/10 hover:bg-[#DF301C]/20 border border-[#DF301C]/30 transition-all"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-c3 hover:text-text-primary bg-c3/10 hover:bg-c3/20 border border-c3/40 transition-all"
               title="Clear all audit logs"
             >
               <Trash2 size={13} />
@@ -127,19 +127,19 @@ export default function AuditPage() {
       {/* Loading state */}
       {loading && logs.length === 0 && (
         <div className="p-12 text-center">
-          <div className="inline-block h-8 w-8 animate-spin rounded-full border-2 border-[#B9D175] border-t-transparent" />
-          <p className="text-xs text-[#8c826c] mt-3">Loading audit records…</p>
+          <div className="inline-block h-8 w-8 animate-spin rounded-full border-2 border-c1 border-t-transparent" />
+          <p className="text-xs text-text-muted mt-3">Loading audit records…</p>
         </div>
       )}
 
       {/* Empty state */}
       {!loading && filteredLogs.length === 0 && (
-        <div className="p-12 rounded-2xl border border-[#450C3F] bg-[#140a1b] text-center space-y-3">
-          <div className="h-12 w-12 rounded-2xl bg-[#B9D175]/15 flex items-center justify-center mx-auto text-[#B9D175]">
+        <div className="p-12 rounded-2xl border border-c4 bg-bg-surface text-center space-y-3">
+          <div className="h-12 w-12 rounded-2xl bg-c1/15 flex items-center justify-center mx-auto text-c1">
             <Shield size={24} />
           </div>
-          <h4 className="font-display font-bold text-base text-[#FFF1D1]">No audit entries found</h4>
-          <p className="text-xs text-[#8c826c] max-w-sm mx-auto">
+          <h4 className="font-display font-bold text-base text-text-primary">No audit entries found</h4>
+          <p className="text-xs text-text-muted max-w-sm mx-auto">
             {searchQuery
               ? 'No audit records matched your search query.'
               : 'Every query executed, edited, or rejected is recorded in this audit log.'}
@@ -165,33 +165,33 @@ export default function AuditPage() {
                 {/* Left Info */}
                 <div className="space-y-2 flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-xs font-mono text-[#8c826c] flex items-center gap-1">
+                    <span className="text-xs font-mono text-text-muted flex items-center gap-1">
                       <Clock size={12} />
                       {formatTime(log.timestamp, 'datetime')}
                     </span>
-                    <span className="text-[#450C3F]">•</span>
-                    <span className="text-xs font-mono text-[#8c826c]">
+                    <span className="text-c4">•</span>
+                    <span className="text-xs font-mono text-text-muted">
                       Session #{shortId(log.thread_id)}
                     </span>
-                    <span className="text-[#450C3F]">•</span>
-                    <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${isRead ? 'hl-lime' : 'hl-orange'}`}>
+                    <span className="text-c4">•</span>
+                    <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${isRead ? 'hl-teal' : 'hl-gold'}`}>
                       {isRead ? 'DATA READ' : 'DATA WRITE'}
                     </span>
                   </div>
 
-                  <p className="font-semibold text-base text-[#FFF1D1] leading-snug group-hover:text-[#B9D175] transition-colors truncate">
+                  <p className="font-semibold text-base text-text-primary leading-snug group-hover:text-c1 transition-colors truncate">
                     &ldquo;{log.user_request}&rdquo;
                   </p>
 
-                  <div className="flex items-center gap-3 text-xs text-[#8c826c]">
+                  <div className="flex items-center gap-3 text-xs text-text-muted">
                     <span>
                       Safety:{' '}
                       {hasFlags ? (
-                        <span className="text-[#FF9100] font-semibold">
+                        <span className="text-c3 font-semibold">
                           {log.risk_flags.length} Security Flag{log.risk_flags.length > 1 ? 's' : ''}
                         </span>
                       ) : (
-                        <span className="text-[#B9D175] font-semibold">Verified Safe</span>
+                        <span className="text-c1 font-semibold">Verified Safe</span>
                       )}
                     </span>
                     {log.estimated_rows_affected !== null && (
@@ -207,16 +207,16 @@ export default function AuditPage() {
                 <div className="flex items-center gap-4 shrink-0 self-start md:self-auto">
                   <div className="text-right">
                     {isApproved ? (
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#B9D175]/20 text-[#B9D175] border border-[#B9D175]/40">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-c1/20 text-c1 border border-c1/40">
                         <CheckCircle2 size={13} />
                         {success === true ? 'Executed' : 'Approved'}
                       </span>
                     ) : isRejected ? (
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#DF301C]/20 text-[#DF301C] border border-[#DF301C]/40">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-c3/20 text-c3 border border-c3/40">
                         Cancelled
                       </span>
                     ) : (
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#FF9100]/20 text-[#FF9100] border border-[#FF9100]/40">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-c2/20 text-c2 border border-c2/40">
                         Pending Action
                       </span>
                     )}
@@ -224,7 +224,7 @@ export default function AuditPage() {
 
                   <button
                     onClick={() => setSelectedLog(log)}
-                    className="p-2 rounded-xl bg-[#1d0f28] text-[#d1c5a9] hover:text-[#FFF1D1] hover:bg-[#271435] border border-[#450C3F] transition-colors"
+                    className="p-2 rounded-xl bg-bg-elevated text-text-secondary hover:text-text-primary hover:bg-bg-overlay border border-c4 hover:border-c1 transition-colors"
                     title="Inspect audit entry"
                   >
                     <ArrowUpRight size={15} />
@@ -245,36 +245,36 @@ export default function AuditPage() {
         {selectedLog && (
           <div className="space-y-6 text-xs font-sans">
             <div className="space-y-1.5">
-              <span className="text-[10px] font-mono font-semibold uppercase tracking-wider text-[#8c826c]">
+              <span className="text-[10px] font-mono font-semibold uppercase tracking-wider text-text-muted">
                 User Prompt
               </span>
-              <p className="text-sm text-[#FFF1D1] font-semibold p-3.5 rounded-xl bg-[#0d0611] border border-[#450C3F]">
+              <p className="text-sm text-text-primary font-semibold p-3.5 rounded-xl bg-bg-base border border-c4">
                 &ldquo;{selectedLog.user_request}&rdquo;
               </p>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <div className="p-3 rounded-xl bg-[#1d0f28] border border-[#450C3F] space-y-1">
-                <span className="text-[#8c826c] text-[10px] uppercase font-mono">Timestamp</span>
-                <p className="text-[#FFF1D1] font-mono">{formatTime(selectedLog.timestamp, 'datetime')}</p>
+              <div className="p-3 rounded-xl bg-bg-elevated border border-c4 space-y-1">
+                <span className="text-text-muted text-[10px] uppercase font-mono">Timestamp</span>
+                <p className="text-text-primary font-mono">{formatTime(selectedLog.timestamp, 'datetime')}</p>
               </div>
-              <div className="p-3 rounded-xl bg-[#1d0f28] border border-[#450C3F] space-y-1">
-                <span className="text-[#8c826c] text-[10px] uppercase font-mono">Session ID</span>
-                <p className="text-[#FFF1D1] font-mono">{shortId(selectedLog.thread_id)}</p>
+              <div className="p-3 rounded-xl bg-bg-elevated border border-c4 space-y-1">
+                <span className="text-text-muted text-[10px] uppercase font-mono">Session ID</span>
+                <p className="text-text-primary font-mono">{shortId(selectedLog.thread_id)}</p>
               </div>
-              <div className="p-3 rounded-xl bg-[#1d0f28] border border-[#450C3F] space-y-1">
-                <span className="text-[#8c826c] text-[10px] uppercase font-mono">Human Decision</span>
-                <p className="text-[#FFF1D1] font-mono capitalize">{selectedLog.human_decision || 'Pending'}</p>
+              <div className="p-3 rounded-xl bg-bg-elevated border border-c4 space-y-1">
+                <span className="text-text-muted text-[10px] uppercase font-mono">Human Decision</span>
+                <p className="text-text-primary font-mono capitalize">{selectedLog.human_decision || 'Pending'}</p>
               </div>
-              <div className="p-3 rounded-xl bg-[#1d0f28] border border-[#450C3F] space-y-1">
-                <span className="text-[#8c826c] text-[10px] uppercase font-mono">Estimated Rows</span>
-                <p className="text-[#FFF1D1] font-mono">{selectedLog.estimated_rows_affected ?? 'N/A'}</p>
+              <div className="p-3 rounded-xl bg-bg-elevated border border-c4 space-y-1">
+                <span className="text-text-muted text-[10px] uppercase font-mono">Estimated Rows</span>
+                <p className="text-text-primary font-mono">{selectedLog.estimated_rows_affected ?? 'N/A'}</p>
               </div>
             </div>
 
             {selectedLog.generated_sql && (
               <div className="space-y-1.5">
-                <span className="text-[10px] font-mono font-semibold uppercase tracking-wider text-[#8c826c]">
+                <span className="text-[10px] font-mono font-semibold uppercase tracking-wider text-text-muted">
                   Generated SQL
                 </span>
                 <SQLViewer sql={selectedLog.generated_sql} showEditButton={false} />

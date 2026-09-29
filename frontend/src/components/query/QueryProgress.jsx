@@ -61,27 +61,27 @@ export default function QueryProgress({ message }) {
       className="glass-card-3d rounded-2xl overflow-hidden font-sans"
     >
       {/* Console Header Bar */}
-      <div className="relative flex items-center justify-between px-5 py-3 border-b border-[#8B1E2D] bg-[#210d14]/80 backdrop-blur-md">
+      <div className="relative flex items-center justify-between px-5 py-3 border-b border-c4 bg-bg-elevated/90 backdrop-blur-md">
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1.5 mr-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#E63946]" />
-            <span className="w-2.5 h-2.5 rounded-full bg-[#F4D35E]" />
-            <span className="w-2.5 h-2.5 rounded-full bg-[#457B9D]" />
+            <span className="w-2.5 h-2.5 rounded-full bg-c3" />
+            <span className="w-2.5 h-2.5 rounded-full bg-c2" />
+            <span className="w-2.5 h-2.5 rounded-full bg-c1" />
           </div>
-          <Terminal size={14} className="text-[#457B9D]" />
-          <span className="text-xs font-mono font-bold tracking-wider uppercase text-[#457B9D]">
+          <Terminal size={14} className="text-c1" />
+          <span className="text-xs font-mono font-bold tracking-wider uppercase text-c1">
             Agent Execution Console
           </span>
         </div>
 
-        <div className="flex items-center gap-2 text-xs font-mono text-[#e2d4cf]">
-          <span className="inline-block w-2 h-2 rounded-full bg-[#F4D35E] animate-pulse" />
+        <div className="flex items-center gap-2 text-xs font-mono text-c2">
+          <span className="inline-block w-2 h-2 rounded-full bg-c2 animate-pulse" />
           <span>Processing Pipeline</span>
         </div>
 
         {/* Animated Progress Meter Bar */}
         <motion.div
-          className="absolute bottom-0 left-0 h-[2px] bg-[#F4D35E]"
+          className="absolute bottom-0 left-0 h-[2px] bg-c1"
           initial={{ width: '25%' }}
           animate={{ width: `${((activeStep + 1) / CONSOLE_STEPS.length) * 100}%` }}
           transition={{ duration: 0.5, ease: 'easeInOut' }}
@@ -103,10 +103,10 @@ export default function QueryProgress({ message }) {
                 className={[
                   'p-3.5 rounded-xl border transition-all',
                   isCurrent
-                    ? 'border-[#457B9D] bg-[#210d14] shadow-[0_2px_0_0_#457B9D]'
+                    ? 'border-c1 bg-bg-elevated shadow-sm'
                     : isCompleted
-                    ? 'border-[#F4D35E]/50 glass-panel'
-                    : 'border-[#8B1E2D]/40 bg-[#170a0e]/40 opacity-40',
+                    ? 'border-c2/50 glass-panel'
+                    : 'border-c4/40 bg-bg-surface/40 opacity-40',
                 ].join(' ')}
               >
                 <div className="flex items-center justify-between mb-1.5">
@@ -114,31 +114,31 @@ export default function QueryProgress({ message }) {
                     className={[
                       'text-[10px] font-mono font-bold px-2 py-0.5 rounded',
                       isCurrent
-                        ? 'bg-[#457B9D]/25 text-[#457B9D]'
+                        ? 'bg-c1/25 text-c1'
                         : isCompleted
-                        ? 'bg-[#F4D35E]/25 text-[#F4D35E]'
-                        : 'bg-[#8B1E2D]/30 text-[#9c8a8e]',
+                        ? 'bg-c2/25 text-c2'
+                        : 'bg-c4/30 text-text-muted',
                     ].join(' ')}
                   >
                     {step.tag}
                   </span>
-                  {isCompleted && <Check size={13} className="text-[#F4D35E]" />}
+                  {isCompleted && <Check size={13} className="text-c2" />}
                   {isCurrent && (
-                    <span className="w-2 h-2 rounded-full bg-[#457B9D] animate-ping" />
+                    <span className="w-2 h-2 rounded-full bg-c1 animate-ping" />
                   )}
                 </div>
-                <p className="text-xs font-semibold text-[#FFF8F0] truncate">{step.title}</p>
-                <p className="text-[11px] text-[#9c8a8e] mt-0.5 line-clamp-1">{step.detail}</p>
+                <p className="text-xs font-semibold text-text-primary truncate">{step.title}</p>
+                <p className="text-[11px] text-text-muted mt-0.5 line-clamp-1">{step.detail}</p>
               </motion.div>
             );
           })}
         </div>
 
         {/* Rolling Token Console Stream */}
-        <div className="p-3.5 rounded-xl bg-[#0f0608]/90 backdrop-blur-md border border-[#8B1E2D] font-mono text-xs flex items-center justify-between gap-4 shadow-inner">
+        <div className="p-3.5 rounded-xl bg-bg-surface/95 backdrop-blur-md border border-c4 font-mono text-xs flex items-center justify-between gap-4 shadow-inner">
           <div className="flex items-center gap-2 min-w-0">
-            <Cpu size={14} className="text-[#457B9D] shrink-0" />
-            <span className="text-[11px] text-[#9c8a8e] shrink-0 uppercase tracking-wider">
+            <Cpu size={14} className="text-c1 shrink-0" />
+            <span className="text-[11px] text-text-muted shrink-0 uppercase tracking-wider">
               Token Stream:
             </span>
             <motion.span
@@ -146,15 +146,15 @@ export default function QueryProgress({ message }) {
               initial={{ opacity: 0, x: -4 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.2 }}
-              className="text-[#F4D35E] truncate font-medium"
+              className="text-c2 truncate font-medium"
             >
               {ROLLING_TOKENS[tokenIndex]}
             </motion.span>
-            <span className="inline-block w-2 h-3 bg-[#F4D35E] animate-pulse shrink-0" />
+            <span className="inline-block w-2 h-3 bg-c1 animate-pulse shrink-0" />
           </div>
 
-          <div className="hidden sm:flex items-center gap-2 shrink-0 text-[11px] text-[#9c8a8e]">
-            <Shield size={12} className="text-[#F4D35E]" />
+          <div className="hidden sm:flex items-center gap-2 shrink-0 text-[11px] text-text-muted">
+            <Shield size={12} className="text-c2" />
             <span>AST Guard Active</span>
           </div>
         </div>
