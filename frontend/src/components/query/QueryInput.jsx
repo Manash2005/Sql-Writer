@@ -31,7 +31,7 @@ export default function QueryInput({ value, onChange, onSubmit, loading, onReset
     <div className="space-y-3">
       {/* Quick Prompts Bar */}
       <div className="flex items-center gap-2 overflow-x-auto scrollbar-x pb-1">
-        <span className="text-xs font-semibold text-[#d1c5a9] flex items-center gap-1.5 shrink-0 mr-1">
+        <span className="text-xs font-semibold text-[#e2d4cf] flex items-center gap-1.5 shrink-0 mr-1">
           Quick Queries:
         </span>
         {QUICK_PROMPTS.map((qp) => (
@@ -43,7 +43,7 @@ export default function QueryInput({ value, onChange, onSubmit, loading, onReset
               if (textareaRef.current) textareaRef.current.focus();
             }}
             disabled={loading}
-            className="text-xs px-3.5 py-1.5 rounded-full glass-panel hover:bg-[#271435] border border-[#450C3F] hover:border-[#B9D175] text-[#d1c5a9] hover:text-[#FFF1D1] transition-all shrink-0 active:scale-95 hover:-translate-y-0.5"
+            className="text-xs px-3.5 py-1.5 rounded-full glass-panel hover:bg-[#2b111a] border border-[#8B1E2D] hover:border-[#F4D35E] text-[#e2d4cf] hover:text-[#FFF8F0] transition-all shrink-0 active:scale-95 hover:-translate-y-0.5"
           >
             {qp.label}
           </button>
@@ -51,7 +51,7 @@ export default function QueryInput({ value, onChange, onSubmit, loading, onReset
       </div>
 
       {/* Main Input Box */}
-      <div className="glass-panel rounded-2xl overflow-hidden focus-within:border-[#00B7CD] focus-within:ring-2 focus-within:ring-[#00B7CD]/25 transition-all shadow-[0_4px_0_0_#450C3F]">
+      <div className="glass-panel rounded-2xl overflow-hidden focus-within:border-[#457B9D] focus-within:ring-2 focus-within:ring-[#457B9D]/30 transition-all shadow-[0_4px_0_0_#8B1E2D]">
         <textarea
           ref={textareaRef}
           id="nl-query-input"
@@ -62,7 +62,7 @@ export default function QueryInput({ value, onChange, onSubmit, loading, onReset
           disabled={loading}
           rows={3}
           className={[
-            'w-full glass-input px-5 pt-4 pb-2 text-sm sm:text-base text-[#FFF1D1] placeholder-[#8c826c]',
+            'w-full glass-input px-5 pt-4 pb-2 text-sm sm:text-base text-[#FFF8F0] placeholder-[#9c8a8e]',
             'resize-none focus:outline-none leading-relaxed font-sans',
             'disabled:opacity-60 disabled:cursor-not-allowed',
           ].join(' ')}
@@ -70,9 +70,9 @@ export default function QueryInput({ value, onChange, onSubmit, loading, onReset
           aria-describedby="query-hint"
         />
 
-        <div className="flex items-center justify-between px-5 py-3 border-t border-[#450C3F] bg-[#1d0f28]/80">
-          <p id="query-hint" className="text-xs text-[#8c826c] font-sans">
-            Press <kbd className="px-1.5 py-0.5 bg-[#450C3F] rounded text-[11px] font-mono text-[#FFF1D1] border border-[#450C3F]">⌘/Ctrl</kbd> + <kbd className="px-1.5 py-0.5 bg-[#450C3F] rounded text-[11px] font-mono text-[#FFF1D1] border border-[#450C3F]">Enter</kbd> to ask
+        <div className="flex items-center justify-between px-5 py-3 border-t border-[#8B1E2D] bg-[#210d14]/80">
+          <p id="query-hint" className="text-xs text-[#9c8a8e] font-sans">
+            Press <kbd className="px-1.5 py-0.5 bg-[#8B1E2D] rounded text-[11px] font-mono text-[#FFF8F0] border border-[#8B1E2D]">⌘/Ctrl</kbd> + <kbd className="px-1.5 py-0.5 bg-[#8B1E2D] rounded text-[11px] font-mono text-[#FFF8F0] border border-[#8B1E2D]">Enter</kbd> to ask
           </p>
 
           <div className="flex items-center gap-2.5">
@@ -84,7 +84,7 @@ export default function QueryInput({ value, onChange, onSubmit, loading, onReset
                 disabled={loading}
                 leftIcon={<RotateCcw size={13} />}
                 aria-label="Reset query"
-                className="text-[#d1c5a9] hover:text-[#FFF1D1]"
+                className="text-[#e2d4cf] hover:text-[#FFF8F0]"
               >
                 Reset
               </Button>
@@ -93,16 +93,16 @@ export default function QueryInput({ value, onChange, onSubmit, loading, onReset
             <button
               onClick={onSubmit}
               disabled={loading || !value.trim()}
-              className="btn-3d-lime flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold disabled:opacity-40 disabled:cursor-not-allowed"
+              className="btn-3d-gold flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold disabled:opacity-40 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <>
-                  <span className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-[#0d0611] border-t-transparent" />
+                  <span className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-[#0f0608] border-t-transparent" />
                   <span>Thinking…</span>
                 </>
               ) : (
                 <>
-                  <Send size={14} className="text-[#0d0611]" />
+                  <Send size={14} className="text-[#0f0608]" />
                   <span>Ask Assistant</span>
                 </>
               )}

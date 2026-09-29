@@ -2,21 +2,25 @@ import { forwardRef } from 'react';
 
 const variantClasses = {
   primary:
-    'bg-[#00B7CD] hover:bg-[#00c5dd] text-[#0f1118] font-semibold border border-[#00B7CD] shadow-[0_2px_0_0_#008494] active:translate-y-0.5',
+    'bg-[#457B9D] hover:bg-[#4f8ab0] text-[#FFF8F0] font-semibold border border-[#5a92b5] shadow-[0_2px_0_0_#2e556e] active:translate-y-0.5',
   secondary:
-    'bg-[#161922] hover:bg-[#1f2330] text-[#FFF1D1] border border-[#252a38] shadow-[0_2px_0_0_#0b0d12] hover:border-[#00B7CD]/40 active:translate-y-0.5',
+    'bg-[#210d14] hover:bg-[#2b111a] text-[#FFF8F0] border border-[#8B1E2D] shadow-[0_2px_0_0_#53121b] hover:border-[#F4D35E]/50 active:translate-y-0.5',
   danger:
-    'bg-[#DF301C] hover:bg-[#eb3a25] text-white font-semibold border border-[#DF301C] shadow-[0_2px_0_0_#9f2113] active:translate-y-0.5',
+    'bg-[#E63946] hover:bg-[#ec4856] text-white font-semibold border border-[#ec5863] shadow-[0_2px_0_0_#a8242f] active:translate-y-0.5',
   ghost:
-    'bg-transparent hover:bg-[#161922] text-[#8b91a8] hover:text-[#FFF1D1] border border-transparent',
+    'bg-transparent hover:bg-[#2b111a] text-[#e2d4cf] hover:text-[#FFF8F0] border border-transparent',
   outline:
-    'bg-transparent hover:bg-[#161922] text-[#FFF1D1] border border-[#252a38] hover:border-[#00B7CD] active:translate-y-0.5',
+    'bg-transparent hover:bg-[#210d14] text-[#FFF8F0] border border-[#8B1E2D] hover:border-[#F4D35E] active:translate-y-0.5',
   emerald:
-    'bg-[#B9D175] hover:bg-[#c5dc86] text-[#450C3F] font-bold border border-[#B9D175] shadow-[0_2px_0_0_#899e4f] active:translate-y-0.5',
+    'bg-[#F4D35E] hover:bg-[#fae17f] text-[#0f0608] font-bold border border-[#fae28b] shadow-[0_2px_0_0_#c2a135] active:translate-y-0.5',
   lime:
-    'bg-[#B9D175] hover:bg-[#c5dc86] text-[#450C3F] font-bold border border-[#B9D175] shadow-[0_2px_0_0_#899e4f] active:translate-y-0.5',
+    'bg-[#F4D35E] hover:bg-[#fae17f] text-[#0f0608] font-bold border border-[#fae28b] shadow-[0_2px_0_0_#c2a135] active:translate-y-0.5',
+  gold:
+    'bg-[#F4D35E] hover:bg-[#fae17f] text-[#0f0608] font-bold border border-[#fae28b] shadow-[0_2px_0_0_#c2a135] active:translate-y-0.5',
+  wine:
+    'bg-[#8B1E2D] hover:bg-[#a12335] text-[#FFF8F0] font-semibold border border-[#8B1E2D] shadow-[0_2px_0_0_#53121b] active:translate-y-0.5',
   plum:
-    'bg-[#450C3F] hover:bg-[#581050] text-[#FFF1D1] font-semibold border border-[#450C3F] shadow-[0_2px_0_0_#280725] active:translate-y-0.5',
+    'bg-[#8B1E2D] hover:bg-[#a12335] text-[#FFF8F0] font-semibold border border-[#8B1E2D] shadow-[0_2px_0_0_#53121b] active:translate-y-0.5',
 };
 
 const sizeClasses = {

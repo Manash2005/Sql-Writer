@@ -69,13 +69,13 @@ export default function Header({ onClearAll }) {
           onClick={() => scrollTo('hero')}
           className="flex items-center gap-2.5 text-left group transition-transform active:scale-95"
         >
-          <div className="h-8 w-8 rounded-lg bg-[#450C3F] border border-[#B9D175]/60 flex items-center justify-center shadow-[0_2px_0_0_#B9D175] group-hover:shadow-[0_3px_0_0_#B9D175] group-hover:-translate-y-0.5 transition-all">
-            <Terminal size={16} className="text-[#B9D175] font-bold" />
+          <div className="h-8 w-8 rounded-lg bg-[#162230] border border-[#457B9D] flex items-center justify-center shadow-[0_2px_0_0_#284b63] group-hover:shadow-[0_3px_0_0_#284b63] group-hover:-translate-y-0.5 transition-all">
+            <Terminal size={16} className="text-[#457B9D] font-bold" />
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="font-display font-extrabold text-base tracking-tight text-[#FFF1D1]">
-                SQL <span className="text-[#B9D175]">Assistant</span>
+              <span className="font-display font-extrabold text-base tracking-tight text-[#F8FAFC]">
+                SQL <span className="text-[#457B9D]">Assistant</span>
               </span>
             </div>
           </div>
@@ -93,11 +93,11 @@ export default function Header({ onClearAll }) {
               onClick={() => scrollTo(item.id)}
               className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-150 ${
                 isActive
-                  ? 'bg-[#B9D175] text-[#0d0611] shadow-[0_2px_0_0_#8fa64a]'
-                  : 'text-[#d1c5a9] hover:text-[#FFF1D1] hover:bg-[#271435]'
+                  ? 'bg-[#457B9D] text-white shadow-[0_2px_0_0_#284b63]'
+                  : 'text-[#CBD5E1] hover:text-[#F8FAFC] hover:bg-[#162230]'
               }`}
             >
-              <Icon size={13} className={isActive ? 'text-[#0d0611]' : 'text-[#8c826c]'} />
+              <Icon size={13} className={isActive ? 'text-white' : 'text-[#849BB0]'} />
               <span>{item.label}</span>
             </button>
           );
@@ -107,24 +107,24 @@ export default function Header({ onClearAll }) {
       {/* Right Controls */}
       <div className="flex items-center gap-3">
         {/* Backend Status */}
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-[#450C3F] glass-panel">
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-[#457B9D]/40 glass-panel">
           {apiStatus === 'checking' && (
-            <span className="flex items-center gap-1.5 text-xs text-[#FF9100]">
-              <span className="h-2 w-2 rounded-full bg-[#FF9100] animate-ping" />
+            <span className="flex items-center gap-1.5 text-xs text-[#F4D35E]">
+              <span className="h-2 w-2 rounded-full bg-[#F4D35E] animate-ping" />
               Connecting
             </span>
           )}
           {apiStatus === 'connected' && (
-            <span className="flex items-center gap-1.5 text-xs font-medium text-[#B9D175]">
+            <span className="flex items-center gap-1.5 text-xs font-medium text-[#457B9D]">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#B9D175] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#B9D175]"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#457B9D] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#457B9D]"></span>
               </span>
               Engine Online
             </span>
           )}
           {apiStatus === 'error' && (
-            <span className="flex items-center gap-1.5 text-xs font-medium text-[#DF301C]" title="Backend not reachable">
+            <span className="flex items-center gap-1.5 text-xs font-medium text-[#E63946]" title="Backend not reachable">
               <AlertCircle size={13} />
               Backend Offline
             </span>
@@ -136,7 +136,7 @@ export default function Header({ onClearAll }) {
           <button
             onClick={onClearAll}
             title="Clear previous history & audit data"
-            className="p-2 rounded-full border border-[#450C3F] hover:border-[#DF301C] text-[#d1c5a9] hover:text-[#DF301C] hover:bg-[#DF301C]/15 transition-all active:scale-90"
+            className="p-2 rounded-full border border-[#457B9D]/40 hover:border-[#E63946] text-[#CBD5E1] hover:text-[#E63946] hover:bg-[#E63946]/15 transition-all active:scale-90"
           >
             <Trash2 size={14} />
           </button>

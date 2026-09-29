@@ -51,9 +51,9 @@ export default function App() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#0d0611] text-[#FFF1D1] selection:bg-[#B9D175]/30 selection:text-[#FFF1D1] flex flex-col font-sans overflow-x-hidden">
-      {/* Background Grid Lines (Engineered mathematical grid, zero gradients) */}
-      <div className="fixed inset-0 pointer-events-none bg-grid-lines opacity-60 z-0" />
+    <div className="relative min-h-screen bg-[#080e14] text-[#F8FAFC] selection:bg-[#457B9D]/30 selection:text-[#F8FAFC] flex flex-col font-sans overflow-x-hidden">
+      {/* Background Grid Lines (Engineered mathematical grid, smooth floating motion) */}
+      <div className="fixed inset-0 pointer-events-none bg-grid-lines animate-grid-float opacity-50 z-0" />
       <div className="fixed inset-0 pointer-events-none bg-grid-dense opacity-20 z-0" />
 
       {/* In-app Global Clear Confirmation Modal */}
@@ -73,10 +73,10 @@ export default function App() {
       {/* Clear notification banner */}
       {clearNotice && (
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          className="fixed top-20 right-6 z-50 glass-panel border border-[#B9D175]/80 text-[#B9D175] px-4 py-2.5 rounded-xl text-xs font-semibold shadow-2xl flex items-center gap-2"
+          initial={{ opacity: 0, y: -20, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -20, scale: 0.95 }}
+          className="fixed top-20 right-6 z-50 glass-panel border border-[#457B9D]/80 text-[#457B9D] px-4 py-2.5 rounded-xl text-xs font-semibold shadow-2xl flex items-center gap-2"
         >
           <CheckCircle2 size={16} />
           <span>All history and audit logs cleared!</span>
@@ -89,36 +89,36 @@ export default function App() {
         {/* STORY / HERO SECTION */}
         <section className="space-y-10 pt-4" id="hero">
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: 'easeOut' }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             className="space-y-5 max-w-3xl"
           >
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-panel border border-[#450C3F] text-xs font-mono text-[#d1c5a9] animate-float-slow">
-              <span className="w-2 h-2 rounded-full bg-[#B9D175] animate-pulse" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-panel border border-[#457B9D]/40 text-xs font-mono text-[#CBD5E1] animate-float-slow">
+              <span className="w-2 h-2 rounded-full bg-[#457B9D] animate-pulse" />
               <span>Safety-First SQL Generation Engine</span>
             </div>
 
-            <h1 className="font-display font-extrabold text-4xl sm:text-6xl text-[#FFF1D1] tracking-tight leading-[1.12]">
-              Query your database in <span className="hl-lime">plain English</span>, with zero risk.
+            <h1 className="font-display font-extrabold text-4xl sm:text-6xl text-[#F8FAFC] tracking-tight leading-[1.18]">
+              Query your database in <span className="hl-blue">plain English</span>, with zero risk.
             </h1>
 
-            <p className="text-base sm:text-lg text-[#d1c5a9] leading-relaxed font-sans font-normal">
+            <p className="text-base sm:text-lg text-[#CBD5E1] leading-relaxed font-sans font-normal">
               State machine agent with dual-layer protection: deterministic AST validation intercepts destructive queries, and every state mutation halts for operator confirmation.
             </p>
 
             <div className="flex items-center gap-4 pt-1">
               <a
                 href="#workspace"
-                className="btn-3d-lime inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm transition-transform active:scale-95"
+                className="btn-3d-blue inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm transition-transform active:scale-95"
               >
                 <span>Open Workspace</span>
-                <ArrowDown size={14} className="text-[#0d0611]" />
+                <ArrowDown size={14} className="text-[#F8FAFC]" />
               </a>
 
               <a
                 href="#database"
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-sm glass-panel hover:bg-[#271435] text-[#d1c5a9] hover:text-[#FFF1D1] border border-[#450C3F] transition-all active:scale-95"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-sm glass-panel hover:bg-[#162230] text-[#CBD5E1] hover:text-[#F8FAFC] border border-[#457B9D]/40 transition-all active:scale-95"
               >
                 <span>Live Schema &amp; Data</span>
               </a>
@@ -128,49 +128,49 @@ export default function App() {
           {/* 3 Core Architecture Pillars */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 pt-4">
             <motion.div
-              initial={{ opacity: 0, y: 14 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.1 }}
-              whileHover={{ y: -3, transition: { duration: 0.2 } }}
+              transition={{ duration: 0.45, delay: 0.1 }}
+              whileHover={{ y: -4, transition: { duration: 0.2 } }}
               className="glass-panel p-5 rounded-2xl space-y-2.5 transition-all"
             >
-              <div className="h-9 w-9 rounded-lg bg-[#00B7CD]/20 border border-[#00B7CD]/40 flex items-center justify-center text-[#00B7CD]">
+              <div className="h-9 w-9 rounded-lg bg-[#457B9D]/20 border border-[#457B9D]/40 flex items-center justify-center text-[#457B9D]">
                 <Terminal size={18} />
               </div>
-              <h3 className="font-display font-bold text-base text-[#FFF1D1]">Natural Language Ingestion</h3>
-              <p className="text-xs text-[#d1c5a9] leading-relaxed">
+              <h3 className="font-display font-bold text-base text-[#F8FAFC]">Natural Language Ingestion</h3>
+              <p className="text-xs text-[#CBD5E1] leading-relaxed">
                 Translates high-level business queries into standard SQL using Groq Qwen with automatic failover to OpenRouter.
               </p>
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 14 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.2 }}
-              whileHover={{ y: -3, transition: { duration: 0.2 } }}
+              transition={{ duration: 0.45, delay: 0.2 }}
+              whileHover={{ y: -4, transition: { duration: 0.2 } }}
               className="glass-panel p-5 rounded-2xl space-y-2.5 transition-all"
             >
-              <div className="h-9 w-9 rounded-lg bg-[#DF301C]/20 border border-[#DF301C]/40 flex items-center justify-center text-[#DF301C]">
+              <div className="h-9 w-9 rounded-lg bg-[#E63946]/20 border border-[#E63946]/40 flex items-center justify-center text-[#E63946]">
                 <Lock size={18} />
               </div>
-              <h3 className="font-display font-bold text-base text-[#FFF1D1]">Deterministic AST Guard</h3>
-              <p className="text-xs text-[#d1c5a9] leading-relaxed">
+              <h3 className="font-display font-bold text-base text-[#F8FAFC]">Deterministic AST Guard</h3>
+              <p className="text-xs text-[#CBD5E1] leading-relaxed">
                 Independent AST security parser hard-blocks DROP, ALTER, and unbounded mass UPDATE/DELETE statements.
               </p>
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 14 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.3 }}
-              whileHover={{ y: -3, transition: { duration: 0.2 } }}
+              transition={{ duration: 0.45, delay: 0.3 }}
+              whileHover={{ y: -4, transition: { duration: 0.2 } }}
               className="glass-panel p-5 rounded-2xl space-y-2.5 transition-all"
             >
-              <div className="h-9 w-9 rounded-lg bg-[#B9D175]/20 border border-[#B9D175]/40 flex items-center justify-center text-[#B9D175]">
+              <div className="h-9 w-9 rounded-lg bg-[#F4D35E]/20 border border-[#F4D35E]/40 flex items-center justify-center text-[#F4D35E]">
                 <CheckCircle2 size={18} />
               </div>
-              <h3 className="font-display font-bold text-base text-[#FFF1D1]">Human in the Loop</h3>
-              <p className="text-xs text-[#d1c5a9] leading-relaxed">
+              <h3 className="font-display font-bold text-base text-[#F8FAFC]">Human in the Loop</h3>
+              <p className="text-xs text-[#CBD5E1] leading-relaxed">
                 State machine interrupts before database execution, presenting exact statement preview and row impact for your sign-off.
               </p>
             </motion.div>
@@ -178,13 +178,20 @@ export default function App() {
         </section>
 
         {/* WORKSPACE SECTION (Primary User Focus) */}
-        <section className="space-y-4 scroll-mt-24" id="workspace">
+        <motion.section
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+          className="space-y-4 scroll-mt-24"
+          id="workspace"
+        >
           <div className="flex items-center justify-between">
             <div className="space-y-1">
-              <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#FFF1D1] tracking-tight flex items-center gap-2.5">
-                <Terminal className="text-[#00B7CD]" size={24} /> Execution Workspace
+              <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#F8FAFC] tracking-tight flex items-center gap-2.5">
+                <Terminal className="text-[#457B9D]" size={24} /> Execution Workspace
               </h2>
-              <p className="text-xs sm:text-sm text-[#8c826c] font-sans">
+              <p className="text-xs sm:text-sm text-[#849BB0] font-sans">
                 Submit questions below. Review proposed queries and execute inside the secured sandbox.
               </p>
             </div>
@@ -192,30 +199,44 @@ export default function App() {
           <div className="glass-card-3d rounded-3xl p-6 sm:p-8">
             <QueryPage workflow={workflow} />
           </div>
-        </section>
+        </motion.section>
 
         {/* DATABASE EXPLORER SECTION */}
-        <section className="space-y-4 scroll-mt-24" id="database">
+        <motion.section
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+          className="space-y-4 scroll-mt-24"
+          id="database"
+        >
           <div className="space-y-1">
-            <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#FFF1D1] tracking-tight flex items-center gap-2.5">
-              <Database className="text-[#B9D175]" size={24} /> Sandbox Database &amp; Schema
+            <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#F8FAFC] tracking-tight flex items-center gap-2.5">
+              <Database className="text-[#457B9D]" size={24} /> Sandbox Database &amp; Schema
             </h2>
-            <p className="text-xs sm:text-sm text-[#8c826c]">
+            <p className="text-xs sm:text-sm text-[#849BB0]">
               Live tables, schema definitions, and records populated in the local SQLite sandbox.
             </p>
           </div>
           <div className="glass-card-3d rounded-3xl p-6 sm:p-8">
             <DatabasePage />
           </div>
-        </section>
+        </motion.section>
 
         {/* SESSION HISTORY SECTION */}
-        <section className="space-y-4 scroll-mt-24" id="history">
+        <motion.section
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+          className="space-y-4 scroll-mt-24"
+          id="history"
+        >
           <div className="space-y-1">
-            <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#FFF1D1] tracking-tight">
-              Session History
+            <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#F8FAFC] tracking-tight flex items-center gap-2.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#457B9D]" /> Session History
             </h2>
-            <p className="text-xs sm:text-sm text-[#8c826c]">
+            <p className="text-xs sm:text-sm text-[#849BB0]">
               Chronological log of queries and decisions in your active session.
             </p>
           </div>
@@ -226,31 +247,38 @@ export default function App() {
               onClear={history.clearHistory}
             />
           </div>
-        </section>
+        </motion.section>
 
         {/* AUDIT LOGS SECTION */}
-        <section className="space-y-4 scroll-mt-24" id="audit">
+        <motion.section
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+          className="space-y-4 scroll-mt-24"
+          id="audit"
+        >
           <div className="space-y-1">
-            <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#FFF1D1] tracking-tight flex items-center gap-2.5">
-              <Shield className="text-[#FF9100]" size={24} /> Security Audit Logs
+            <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#F8FAFC] tracking-tight flex items-center gap-2.5">
+              <Shield className="text-[#457B9D]" size={24} /> Security Audit Logs
             </h2>
-            <p className="text-xs sm:text-sm text-[#8c826c]">
+            <p className="text-xs sm:text-sm text-[#849BB0]">
               Immutable database audit trail recording every request, AST validation score, and human approval.
             </p>
           </div>
           <div className="glass-card-3d rounded-3xl p-6 sm:p-8">
             <AuditPage />
           </div>
-        </section>
+        </motion.section>
 
       </main>
 
       {/* Minimalist Footer */}
-      <footer className="relative z-10 border-t border-[#450C3F] py-10 bg-[#0d0611]/90 backdrop-blur-md text-center text-xs font-sans space-y-2">
-        <p className="font-semibold text-[#d1c5a9]">
+      <footer className="relative z-10 border-t border-[#457B9D]/30 py-10 bg-[#080e14]/90 backdrop-blur-md text-center text-xs font-sans space-y-2">
+        <p className="font-semibold text-[#CBD5E1]">
           Natural Language to SQL Assistant &bull; Safety-First Architecture
         </p>
-        <p className="text-[#8c826c]">
+        <p className="text-[#849BB0]">
           Deterministic Validation &bull; Human-in-the-Loop Approval &bull; SQLite Sandbox
         </p>
       </footer>
