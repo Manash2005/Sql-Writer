@@ -1,20 +1,11 @@
-import json
-import os
-
-from langchain_core.messages import HumanMessage, SystemMessage
-from langchain_groq import ChatGroq
 from dotenv import load_dotenv
+from langchain_core.messages import HumanMessage, SystemMessage
 
 from backend.agent.schemas.pydantic_models import AmbiguityResult
 from backend.agent.graph.state import AgentState
+from backend.agent.llm_router import invoke_structured_with_fallback
 
 load_dotenv()
-
-llm = ChatGroq(
-    model="qwen/qwen3.8-27b",
-    api_key=os.getenv("GROQ_API_KEY"),
-)
-structured_llm = llm.with_structured_output(AmbiguityResult)
 
 MAX_ATTEMPTS = 3
 
@@ -61,45 +52,26 @@ def ambiguity_checker(state : AgentState) -> dict:
             "workflow_status": "processing",
         }
 
-    for attempt in range(1, MAX_ATTEMPTS + 1):
-        system_prompt = SYSTEM_PROMPT
-        if attempt == MAX_ATTEMPTS:
-            system_prompt += (
-                STRICT_OUTPUT_PROMPT
-                + "\nPydantic schema:\n"
-                + json.dumps(AmbiguityResult.model_json_schema())
-            )
+    messages = [
+        SystemMessage(content=SYSTEM_PROMPT),
+        HumanMessage(
+            content=f"""
+            User request:
+            {state["query"]}
 
-        messages = [
-            SystemMessage(content=system_prompt),
-            HumanMessage(
-                content=f"""
-                User request:
-                {state["query"]}
+            Detected intent:
+            {state["intent"]}
 
-                Detected intent:
-                {state["intent"]}
+            Parsed entities:
+            {state["parsed_request"]}
+            """
+        ),
+    ]
 
-                Parsed entities:
-                {state["parsed_request"]}
-                """
-            ),
-        ]
-
-        try:
-            result = structured_llm.invoke(messages)
-            if not isinstance(result, AmbiguityResult):
-                if result is None:
-                    raise ValueError("The model returned no structured result.")
-                result = AmbiguityResult.model_validate(result)
-            break
-        except Exception as exc:
-            if attempt == MAX_ATTEMPTS:
-                raise RuntimeError(
-                    "Ambiguity checking failed to return valid structured output "
-                    f"after {MAX_ATTEMPTS} attempts."
-                ) from exc
-            print(f"Ambiguity structured output failed on attempt {attempt}; retrying.")
+    result = invoke_structured_with_fallback(
+        messages=messages,
+        structured_schema=AmbiguityResult,
+    )
 
     if result.is_sufficient:
         print("No ambiguity found")

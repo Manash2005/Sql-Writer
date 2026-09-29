@@ -150,6 +150,8 @@ export const clarifyQuery = (threadId, answer) =>
 export const getAllAuditLogs = () =>
   apiClient.get('/audit').then((r) => r.data);
 
+export const getAuditLogs = getAllAuditLogs;
+
 /**
  * DELETE /audit
  * Clear all audit log records from the database.

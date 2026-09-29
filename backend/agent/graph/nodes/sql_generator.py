@@ -1,20 +1,11 @@
-import os
-
 from dotenv import load_dotenv
-from langchain_groq import ChatGroq
 from langchain_core.messages import HumanMessage, SystemMessage
 
 from backend.agent.schemas.pydantic_models import SQLResult
 from backend.agent.graph.state import AgentState
-
+from backend.agent.llm_router import invoke_structured_with_fallback
 
 load_dotenv()
-
-llm = ChatGroq(
-   model="qwen/qwen3.8-27b",
-   api_key=os.getenv("GROQ_API_KEY"),
-)
-structured_llm = llm.with_structured_output(SQLResult)
 
 SYSTEM_PROMPT = """
 You are a SQL generation agent for a safety-first Natural Language
@@ -67,10 +58,12 @@ def generate_sql(state : AgentState) -> dict:
          )
    ]
 
-   print()
-   print("Generating SQL....")
-   result = structured_llm.invoke(messages)
-   return{
-      "generated_sql" : result.sql
+   print("\nGenerating SQL....")
+   result = invoke_structured_with_fallback(
+      messages=messages,
+      structured_schema=SQLResult,
+   )
+   return {
+      "generated_sql": result.sql
    }
 

@@ -19,20 +19,20 @@ export default function SQLViewer({ sql, onEdit, showEditButton = true }) {
   };
 
   return (
-    <div className="rounded-lg border border-[#252a38] bg-[#0d0f15] overflow-hidden">
+    <div className="card-3d rounded-xl border border-[#450C3F] bg-[#0d0611] overflow-hidden">
       {/* Toolbar */}
-      <div className="flex items-center justify-between px-4 py-2.5 border-b border-[#1a1f2e] bg-[#111318]">
-        <p className="text-[10px] font-mono font-semibold text-[#565c75] uppercase tracking-widest">
-          Generated SQL
+      <div className="flex items-center justify-between px-4 py-2.5 border-b border-[#450C3F] bg-[#140a1b]">
+        <p className="text-[10px] font-mono font-bold text-[#8c826c] uppercase tracking-widest">
+          Compiled SQL Statement
         </p>
         <div className="flex items-center gap-2">
           <Button
             variant="ghost"
             size="xs"
             onClick={handleCopy}
-            leftIcon={copied ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
+            leftIcon={copied ? <Check size={12} className="text-[#B9D175]" /> : <Copy size={12} />}
             aria-label="Copy SQL to clipboard"
-            className={copied ? 'text-emerald-400' : ''}
+            className={copied ? 'text-[#B9D175]' : 'text-[#d1c5a9] hover:text-[#FFF1D1]'}
           >
             {copied ? 'Copied' : 'Copy'}
           </Button>
@@ -43,6 +43,7 @@ export default function SQLViewer({ sql, onEdit, showEditButton = true }) {
               onClick={onEdit}
               leftIcon={<Edit3 size={12} />}
               aria-label="Edit SQL"
+              className="text-[#d1c5a9] hover:text-[#FFF1D1]"
             >
               Edit
             </Button>
@@ -52,7 +53,7 @@ export default function SQLViewer({ sql, onEdit, showEditButton = true }) {
 
       {/* SQL Code */}
       <div className="overflow-x-auto scrollbar-x">
-        <pre className="px-4 py-4 text-sm font-mono text-[#e8eaf0] leading-6 min-w-max whitespace-pre">
+        <pre className="px-4 py-4 text-sm font-mono text-[#FFF1D1] leading-6 min-w-max whitespace-pre bg-[#0d0611]">
           <SQLHighlighter sql={sql} />
         </pre>
       </div>
@@ -74,11 +75,11 @@ function SQLHighlighter({ sql }) {
   const OPERATORS = /([=<>!]+|,)/g;
 
   const patterns = [
-    { regex: COMMENTS, color: '#565c75', italic: true },
-    { regex: STRINGS, color: '#34d399' },
-    { regex: KEYWORDS, color: '#818cf8', bold: true },
-    { regex: NUMBERS, color: '#fbbf24' },
-    { regex: OPERATORS, color: '#8b91a8' },
+    { regex: COMMENTS, color: '#8c826c', italic: true },
+    { regex: STRINGS, color: '#B9D175' },
+    { regex: KEYWORDS, color: '#00B7CD', bold: true },
+    { regex: NUMBERS, color: '#FF9100' },
+    { regex: OPERATORS, color: '#FFF1D1' },
   ];
 
   // Combined approach: split and colorize

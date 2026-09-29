@@ -2,17 +2,21 @@ import { forwardRef } from 'react';
 
 const variantClasses = {
   primary:
-    'bg-indigo-600 hover:bg-indigo-500 text-white border border-indigo-500 shadow-sm',
+    'bg-[#00B7CD] hover:bg-[#00c5dd] text-[#0f1118] font-semibold border border-[#00B7CD] shadow-[0_2px_0_0_#008494] active:translate-y-0.5',
   secondary:
-    'bg-[#1e2230] hover:bg-[#252a38] text-[#e8eaf0] border border-[#252a38] hover:border-[#363c55]',
+    'bg-[#161922] hover:bg-[#1f2330] text-[#FFF1D1] border border-[#252a38] shadow-[0_2px_0_0_#0b0d12] hover:border-[#00B7CD]/40 active:translate-y-0.5',
   danger:
-    'bg-red-600 hover:bg-red-500 text-white border border-red-500 shadow-sm',
+    'bg-[#DF301C] hover:bg-[#eb3a25] text-white font-semibold border border-[#DF301C] shadow-[0_2px_0_0_#9f2113] active:translate-y-0.5',
   ghost:
-    'bg-transparent hover:bg-[#1e2230] text-[#8b91a8] hover:text-[#e8eaf0] border border-transparent',
+    'bg-transparent hover:bg-[#161922] text-[#8b91a8] hover:text-[#FFF1D1] border border-transparent',
   outline:
-    'bg-transparent hover:bg-[#1e2230] text-[#e8eaf0] border border-[#252a38] hover:border-[#4f46e5]',
+    'bg-transparent hover:bg-[#161922] text-[#FFF1D1] border border-[#252a38] hover:border-[#00B7CD] active:translate-y-0.5',
   emerald:
-    'bg-emerald-600 hover:bg-emerald-500 text-white border border-emerald-500 shadow-sm',
+    'bg-[#B9D175] hover:bg-[#c5dc86] text-[#450C3F] font-bold border border-[#B9D175] shadow-[0_2px_0_0_#899e4f] active:translate-y-0.5',
+  lime:
+    'bg-[#B9D175] hover:bg-[#c5dc86] text-[#450C3F] font-bold border border-[#B9D175] shadow-[0_2px_0_0_#899e4f] active:translate-y-0.5',
+  plum:
+    'bg-[#450C3F] hover:bg-[#581050] text-[#FFF1D1] font-semibold border border-[#450C3F] shadow-[0_2px_0_0_#280725] active:translate-y-0.5',
 };
 
 const sizeClasses = {

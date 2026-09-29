@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Code2, ChevronDown, ChevronUp } from 'lucide-react';
 
 import { needsClarification } from '../lib/utils';
 
@@ -14,11 +15,11 @@ import ApprovalPanel from '../components/approval/ApprovalPanel';
 import ExecutionResult from '../components/execution/ExecutionResult';
 import ErrorState from '../components/common/ErrorState';
 import Button from '../components/common/Button';
-
 import SafetyBlockedCard from '../components/safety/SafetyBlockedCard';
 
 export default function QueryPage({ workflow }) {
   const [inputValue, setInputValue] = useState('');
+  const [showTechnicalDetails, setShowTechnicalDetails] = useState(false);
 
   const {
     status,
@@ -50,6 +51,7 @@ export default function QueryPage({ workflow }) {
   const handleReset = () => {
     reset();
     setInputValue('');
+    setShowTechnicalDetails(false);
   };
 
   const needsClar = queryResult && needsClarification(queryResult);
@@ -59,9 +61,9 @@ export default function QueryPage({ workflow }) {
   const executionDone = !!approvalResult?.execution_result;
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8 space-y-6">
+    <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
 
-      {/* Input */}
+      {/* Natural Language Query Input */}
       <QueryInput
         value={inputValue}
         onChange={setInputValue}
@@ -70,19 +72,19 @@ export default function QueryPage({ workflow }) {
         onReset={queryResult ? handleReset : undefined}
       />
 
-      {/* Loading */}
+      {/* Interactive Live Rolling Console while loading */}
       <AnimatePresence>
         {loading && (
           <QueryProgress message={loadingMessage} />
         )}
       </AnimatePresence>
 
-      {/* Error */}
+      {/* Error State */}
       <AnimatePresence>
         {status === 'error' && error && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <ErrorState
-              title="Something went wrong"
+              title="Execution Problem"
               description={error}
               action={
                 <Button variant="ghost" size="sm" onClick={handleReset}>
@@ -94,19 +96,19 @@ export default function QueryPage({ workflow }) {
         )}
       </AnimatePresence>
 
-      {/* Results */}
+      {/* Results Workspace */}
       <AnimatePresence>
         {queryResult && status !== 'loading' && (
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="space-y-6"
+            className="space-y-5"
           >
-            {/* Query details */}
+            {/* Query Summary & Metadata */}
             <QueryDetails result={queryResult} />
 
-            {/* Safety Rejection Card (stays persistently in the workspace) */}
+            {/* 1. If Safety Blocked */}
             {isBlocked && (
               <SafetyBlockedCard
                 result={queryResult}
@@ -120,7 +122,7 @@ export default function QueryPage({ workflow }) {
               />
             )}
 
-            {/* Clarification */}
+            {/* 2. If Clarification Needed */}
             {!isBlocked && needsClar && (
               <ClarificationPanel
                 question={queryResult.ask_questions}
@@ -130,10 +132,10 @@ export default function QueryPage({ workflow }) {
               />
             )}
 
-            {/* SQL + Safety + Approval (when NOT blocked and NOT awaiting clarification) */}
-            {!isBlocked && !needsClar && (
-              <>
-                {/* SQL Editor / Viewer */}
+            {/* 3. If Awaiting Human Approval */}
+            {!isBlocked && !needsClar && isAwaiting && !executionDone && (
+              <div className="space-y-4">
+                {/* Proposed SQL */}
                 {hasSQL && (
                   isEditing ? (
                     <SQLEditor
@@ -148,36 +150,58 @@ export default function QueryPage({ workflow }) {
                   ) : (
                     <SQLViewer
                       sql={queryResult.generated_sql}
-                      onEdit={isAwaiting ? startEditing : undefined}
-                      showEditButton={isAwaiting && !executionDone}
+                      onEdit={startEditing}
+                      showEditButton={true}
                     />
                   )
                 )}
 
-                {/* Safety panel */}
-                {hasSQL && !isEditing && (
-                  <SafetyPanel result={queryResult} />
-                )}
-
-                {/* Approval panel */}
-                {isAwaiting && !isEditing && !executionDone && (
-                  <ApprovalPanel
-                    result={queryResult}
-                    loading={loading}
-                    onApprove={approve}
-                    onReject={reject}
-                    onEdit={startEditing}
-                  />
-                )}
-              </>
+                {/* Approval Action Panel */}
+                <ApprovalPanel
+                  result={queryResult}
+                  loading={loading}
+                  onApprove={approve}
+                  onReject={reject}
+                  onEdit={startEditing}
+                />
+              </div>
             )}
 
-            {/* Execution result */}
+            {/* 4. If Executed: Data Results Table is front and center! */}
             {executionDone && (
-              <ExecutionResult
-                executionResult={approvalResult.execution_result}
-                intent={queryResult.intent}
-              />
+              <div className="space-y-4">
+                <ExecutionResult
+                  executionResult={approvalResult.execution_result}
+                  intent={queryResult.intent}
+                />
+
+                {/* Collapsible Technical Details (SQL & AST Security Trace) */}
+                <div className="pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowTechnicalDetails(!showTechnicalDetails)}
+                    className="flex items-center gap-2 text-xs font-mono font-medium text-[#d1c5a9] hover:text-[#00B7CD] bg-[#1d0f28] hover:bg-[#271435] border border-[#450C3F] px-4 py-2 rounded-xl transition-all"
+                  >
+                    <Code2 size={13} className="text-[#00B7CD]" />
+                    <span>{showTechnicalDetails ? 'Hide Generated SQL & Security Details' : 'View Generated SQL & Security Details'}</span>
+                    {showTechnicalDetails ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
+                  </button>
+
+                  <AnimatePresence>
+                    {showTechnicalDetails && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="mt-4 space-y-4 overflow-hidden"
+                      >
+                        {hasSQL && <SQLViewer sql={queryResult.generated_sql} showEditButton={false} />}
+                        <SafetyPanel result={queryResult} />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </div>
             )}
           </motion.div>
         )}

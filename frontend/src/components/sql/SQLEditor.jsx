@@ -25,17 +25,17 @@ export default function SQLEditor({
     <motion.div
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
-      className="rounded-lg border border-indigo-500/30 bg-[#0d0f15] overflow-hidden"
+      className="rounded-xl border border-[#00B7CD]/40 bg-[#0d0f15] card-3d overflow-hidden"
     >
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-2.5 border-b border-[#1a1f2e] bg-[#111318]">
+      <div className="flex items-center justify-between px-4 py-2.5 border-b border-[#252a38] bg-[#161922]">
         <div className="flex items-center gap-2">
-          <Edit3 size={13} className="text-indigo-400" />
-          <p className="text-[10px] font-mono font-semibold text-indigo-400 uppercase tracking-widest">
+          <Edit3 size={13} className="text-[#00B7CD]" />
+          <p className="text-[10px] font-mono font-semibold text-[#00B7CD] uppercase tracking-widest">
             Edit SQL
           </p>
         </div>
-        <p className="text-xs text-[#565c75]">Edited SQL will be re-validated by the backend</p>
+        <p className="text-xs text-[#8b91a8]">Edited SQL will be re-validated by safety engine</p>
       </div>
 
       {/* Original reference */}
@@ -64,21 +64,21 @@ export default function SQLEditor({
             'text-sm font-mono text-[#e8eaf0] placeholder-[#565c75]',
             'focus:outline-none transition-colors resize-y leading-5',
             'disabled:opacity-60 disabled:cursor-not-allowed',
-            error ? 'border-red-500/50' : 'border-[#252a38] focus:border-indigo-500/60',
+            error ? 'border-[#DF301C]' : 'border-[#252a38] focus:border-[#00B7CD]',
           ].join(' ')}
           aria-label="Edited SQL"
         />
 
         {error && (
-          <div className="mt-2 flex items-start gap-2 text-xs text-red-400">
+          <div className="mt-2 flex items-start gap-2 text-xs text-[#DF301C]">
             <AlertCircle size={12} className="shrink-0 mt-0.5" />
             <p>{error}</p>
           </div>
         )}
 
         <div className="flex items-center justify-between mt-3">
-          <p className="text-xs text-[#565c75]">
-            The frontend will never execute this SQL directly.
+          <p className="text-xs text-[#8b91a8]">
+            Safety engine evaluates query before any DB execution.
           </p>
           <div className="flex items-center gap-2">
             <Button
@@ -96,7 +96,7 @@ export default function SQLEditor({
               disabled={loading || !editedSql.trim()}
               loading={loading}
             >
-              Validate Changes
+              Validate & Submit
             </Button>
           </div>
         </div>

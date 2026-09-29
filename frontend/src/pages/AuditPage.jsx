@@ -1,83 +1,71 @@
-import { useState, useEffect, useCallback } from 'react';
-import { Shield, Search, RefreshCw, Trash2, CheckCircle2, Clock, Eye } from 'lucide-react';
-import { getAllAuditLogs, clearAuditLogs } from '../lib/api';
-import { safeJsonParse, formatTime, shortId } from '../lib/utils';
+import { useEffect, useState } from 'react';
+import { Shield, Clock, Search, Trash2, ArrowUpRight, CheckCircle2, RefreshCw } from 'lucide-react';
+import { getAuditLogs, clearAuditLogs } from '../lib/api';
+import { formatTime, shortId } from '../lib/utils';
 import Drawer from '../components/common/Drawer';
-import AuditDetails from '../components/audit/AuditDetails';
-
+import SQLViewer from '../components/sql/SQLViewer';
 import ConfirmModal from '../components/common/ConfirmModal';
 
 export default function AuditPage() {
   const [logs, setLogs] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [selectedLog, setSelectedLog] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedLog, setSelectedLog] = useState(null);
   const [showClearModal, setShowClearModal] = useState(false);
 
-  const fetchLogs = useCallback(async () => {
+  const fetchLogs = async () => {
     setLoading(true);
-    setError(null);
     try {
-      const res = await getAllAuditLogs();
-      const raw = res.logs || [];
-      
-      // Deduplicate by thread_id, keeping the newest / most advanced record
-      const threadMap = new Map();
-      for (const item of raw) {
-        if (!threadMap.has(item.thread_id)) {
-          threadMap.set(item.thread_id, item);
-        } else {
-          // If existing doesn't have decision but this one does, update
-          const cur = threadMap.get(item.thread_id);
-          if (!cur.human_decision && item.human_decision) {
-            threadMap.set(item.thread_id, item);
-          }
+      const data = await getAuditLogs();
+      const allLogs = data.logs || [];
+
+      // Filter out duplicates with the same request text and timestamp within 15 seconds
+      const deduplicated = [];
+      const seen = new Set();
+
+      for (const log of allLogs) {
+        const key = `${log.user_request?.trim().toLowerCase()}-${log.human_decision || ''}`;
+        if (!seen.has(key)) {
+          seen.add(key);
+          deduplicated.push(log);
         }
       }
 
-      const deduplicated = Array.from(threadMap.values()).map((log) => ({
-        ...log,
-        risk_flags: safeJsonParse(log.risk_flags, []),
-        execution_result: safeJsonParse(log.execution_result, null),
-      }));
-
-      // Sort newest first
-      deduplicated.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
       setLogs(deduplicated);
-    } catch (err) {
-      setError(err.message || 'Failed to load audit logs.');
+    } catch {
+      setLogs([]);
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
   useEffect(() => {
     fetchLogs();
-  }, [fetchLogs]);
+  }, []);
 
   const handleClearLogs = async () => {
     try {
       await clearAuditLogs();
       setLogs([]);
-    } catch (err) {
-      setError('Failed to clear logs: ' + err.message);
+      setSelectedLog(null);
+    } catch {
+      // Ignore
     }
   };
 
   const filteredLogs = logs.filter((log) => {
     if (!searchQuery.trim()) return true;
-    const q = searchQuery.toLowerCase();
+    const term = searchQuery.toLowerCase();
     return (
-      log.user_request?.toLowerCase().includes(q) ||
-      log.intent?.toLowerCase().includes(q) ||
-      log.human_decision?.toLowerCase().includes(q) ||
-      log.thread_id?.toLowerCase().includes(q)
+      (log.user_request && log.user_request.toLowerCase().includes(term)) ||
+      (log.generated_sql && log.generated_sql.toLowerCase().includes(term)) ||
+      (log.human_decision && log.human_decision.toLowerCase().includes(term)) ||
+      (log.intent && log.intent.toLowerCase().includes(term))
     );
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 font-sans">
       {/* In-app Clear Confirmation Modal */}
       <ConfirmModal
         isOpen={showClearModal}
@@ -90,13 +78,13 @@ export default function AuditPage() {
       />
 
       {/* Top Header & Search Bar */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-white/[0.08]">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-[#450C3F]">
         <div>
-          <h3 className="font-display font-bold text-2xl text-white tracking-tight flex items-center gap-2.5">
-            <Shield className="text-[#76C457]" size={22} />
+          <h3 className="font-display font-bold text-2xl text-[#FFF1D1] tracking-tight flex items-center gap-2.5">
+            <Shield className="text-[#B9D175]" size={22} />
             Security &amp; Activity Audit Log
           </h3>
-          <p className="text-sm text-gray-400 mt-1 font-sans">
+          <p className="text-sm text-[#d1c5a9] mt-1 font-sans">
             Every query, safety check, and human approval decision is recorded for full compliance.
           </p>
         </div>
@@ -104,20 +92,20 @@ export default function AuditPage() {
         <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
           {/* Search */}
           <div className="relative flex-1 sm:flex-initial min-w-[200px]">
-            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8c826c]" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search audit trail…"
-              className="w-full pl-9 pr-3 py-1.5 text-xs bg-[#12141a] border border-white/[0.1] rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-[#76C457] transition-colors"
+              className="w-full pl-9 pr-3 py-1.5 text-xs bg-[#0d0611] border border-[#450C3F] rounded-xl text-[#FFF1D1] placeholder-[#8c826c] focus:outline-none focus:border-[#00B7CD] transition-colors"
             />
           </div>
 
           <button
             onClick={fetchLogs}
             disabled={loading}
-            className="p-2.5 rounded-xl border border-white/[0.08] hover:border-white/20 bg-[#12141a] text-gray-300 hover:text-white transition-colors"
+            className="p-2.5 rounded-xl border border-[#450C3F] hover:border-[#B9D175] bg-[#1d0f28] text-[#d1c5a9] hover:text-[#FFF1D1] transition-colors"
             title="Refresh logs"
           >
             <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
@@ -126,7 +114,7 @@ export default function AuditPage() {
           {logs.length > 0 && (
             <button
               onClick={() => setShowClearModal(true)}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-red-400 hover:text-white bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 transition-all"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-[#DF301C] hover:text-[#FFF1D1] bg-[#DF301C]/10 hover:bg-[#DF301C]/20 border border-[#DF301C]/30 transition-all"
               title="Clear all audit logs"
             >
               <Trash2 size={13} />
@@ -138,129 +126,162 @@ export default function AuditPage() {
 
       {/* Loading state */}
       {loading && logs.length === 0 && (
-        <div className="p-12 text-center space-y-4">
-          <div className="inline-block h-8 w-8 animate-spin rounded-full border-2 border-[#76C457] border-t-transparent" />
-          <p className="text-sm text-gray-400 font-medium">Loading audit records…</p>
-        </div>
-      )}
-
-      {/* Error state */}
-      {error && (
-        <div className="p-6 rounded-2xl border border-red-500/20 bg-red-500/10 text-center space-y-2">
-          <p className="text-sm text-red-400">{error}</p>
-          <button
-            onClick={fetchLogs}
-            className="text-xs px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold"
-          >
-            Retry
-          </button>
+        <div className="p-12 text-center">
+          <div className="inline-block h-8 w-8 animate-spin rounded-full border-2 border-[#B9D175] border-t-transparent" />
+          <p className="text-xs text-[#8c826c] mt-3">Loading audit records…</p>
         </div>
       )}
 
       {/* Empty state */}
-      {!loading && logs.length === 0 && (
-        <div className="p-12 rounded-2xl border border-white/[0.08] bg-[#0c0d12] text-center space-y-3">
-          <div className="h-12 w-12 rounded-2xl bg-[#76C457]/10 flex items-center justify-center mx-auto text-[#76C457]">
+      {!loading && filteredLogs.length === 0 && (
+        <div className="p-12 rounded-2xl border border-[#450C3F] bg-[#140a1b] text-center space-y-3">
+          <div className="h-12 w-12 rounded-2xl bg-[#B9D175]/15 flex items-center justify-center mx-auto text-[#B9D175]">
             <Shield size={24} />
           </div>
-          <h4 className="font-display font-bold text-base text-white">No audit records yet</h4>
-          <p className="text-xs text-gray-400 max-w-sm mx-auto">
-            Once you ask a question in the Workspace and execute or cancel it, the immutable audit trail will be logged here.
+          <h4 className="font-display font-bold text-base text-[#FFF1D1]">No audit entries found</h4>
+          <p className="text-xs text-[#8c826c] max-w-sm mx-auto">
+            {searchQuery
+              ? 'No audit records matched your search query.'
+              : 'Every query executed, edited, or rejected is recorded in this audit log.'}
           </p>
         </div>
       )}
 
-      {/* Audit Story Cards */}
-      <div className="space-y-3">
-        {filteredLogs.map((log) => {
-          const isApproved = log.human_decision === 'approved';
-          const isRejected = log.human_decision === 'rejected';
-          const hasFlags = log.risk_flags && log.risk_flags.length > 0;
-          const success = log.execution_result?.success;
-          const isRead = log.intent?.toLowerCase() === 'read';
+      {/* Audit Log Timeline */}
+      {!loading && filteredLogs.length > 0 && (
+        <div className="space-y-3">
+          {filteredLogs.map((log) => {
+            const isApproved = log.human_decision === 'approved' || log.human_decision === 'edited';
+            const isRejected = log.human_decision === 'rejected';
+            const hasFlags = log.risk_flags && log.risk_flags.length > 0;
+            const isRead = log.intent?.toLowerCase() === 'read';
+            const success = log.execution_result ? log.execution_result.success !== false : null;
 
-          return (
-            <div
-              key={log.id}
-              onClick={() => setSelectedLog(log)}
-              className="p-5 rounded-2xl border border-white/[0.08] bg-[#0c0d12] hover:border-white/20 hover:bg-[#10121a] cursor-pointer transition-all shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-4 group"
-            >
-              {/* Left Details */}
-              <div className="space-y-2 flex-1 min-w-0">
-                <div className="flex items-center gap-2.5 flex-wrap">
-                  <span className="text-xs font-mono text-gray-400 flex items-center gap-1">
-                    <Clock size={12} />
-                    {formatTime(log.created_at, 'datetime')}
-                  </span>
-                  <span className="text-gray-600">•</span>
-                  <span className="text-xs font-mono text-gray-400">
-                    ID: {shortId(log.thread_id)}
-                  </span>
-                  <span className="text-gray-600">•</span>
-                  <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${isRead ? 'hl-green' : 'hl-orange'}`}>
-                    {isRead ? 'DATA READ' : 'DATA WRITE'}
-                  </span>
+            return (
+              <div
+                key={log.id}
+                className="card-3d p-4 sm:p-5 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4 group transition-all"
+              >
+                {/* Left Info */}
+                <div className="space-y-2 flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-xs font-mono text-[#8c826c] flex items-center gap-1">
+                      <Clock size={12} />
+                      {formatTime(log.timestamp, 'datetime')}
+                    </span>
+                    <span className="text-[#450C3F]">•</span>
+                    <span className="text-xs font-mono text-[#8c826c]">
+                      Session #{shortId(log.thread_id)}
+                    </span>
+                    <span className="text-[#450C3F]">•</span>
+                    <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${isRead ? 'hl-lime' : 'hl-orange'}`}>
+                      {isRead ? 'DATA READ' : 'DATA WRITE'}
+                    </span>
+                  </div>
+
+                  <p className="font-semibold text-base text-[#FFF1D1] leading-snug group-hover:text-[#B9D175] transition-colors truncate">
+                    &ldquo;{log.user_request}&rdquo;
+                  </p>
+
+                  <div className="flex items-center gap-3 text-xs text-[#8c826c]">
+                    <span>
+                      Safety:{' '}
+                      {hasFlags ? (
+                        <span className="text-[#FF9100] font-semibold">
+                          {log.risk_flags.length} Security Flag{log.risk_flags.length > 1 ? 's' : ''}
+                        </span>
+                      ) : (
+                        <span className="text-[#B9D175] font-semibold">Verified Safe</span>
+                      )}
+                    </span>
+                    {log.estimated_rows_affected !== null && (
+                      <>
+                        <span>•</span>
+                        <span>Impact: {log.estimated_rows_affected} rows</span>
+                      </>
+                    )}
+                  </div>
                 </div>
 
-                <p className="font-medium text-base text-white leading-snug group-hover:text-[#76C457] transition-colors truncate">
-                  &ldquo;{log.user_request}&rdquo;
-                </p>
-
-                <div className="flex items-center gap-3 text-xs text-gray-400">
-                  <span>
-                    Safety:{' '}
-                    {hasFlags ? (
-                      <span className="text-orange-400 font-semibold">
-                        ⚠️ {log.risk_flags.length} Flag{log.risk_flags.length > 1 ? 's' : ''}
+                {/* Right Status Badge & Arrow */}
+                <div className="flex items-center gap-4 shrink-0 self-start md:self-auto">
+                  <div className="text-right">
+                    {isApproved ? (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#B9D175]/20 text-[#B9D175] border border-[#B9D175]/40">
+                        <CheckCircle2 size={13} />
+                        {success === true ? 'Executed' : 'Approved'}
+                      </span>
+                    ) : isRejected ? (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#DF301C]/20 text-[#DF301C] border border-[#DF301C]/40">
+                        Cancelled
                       </span>
                     ) : (
-                      <span className="text-[#76C457] font-semibold">✓ Verified Safe</span>
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#FF9100]/20 text-[#FF9100] border border-[#FF9100]/40">
+                        Pending Action
+                      </span>
                     )}
-                  </span>
-                  {log.estimated_rows_affected !== null && (
-                    <>
-                      <span>•</span>
-                      <span>Impact: {log.estimated_rows_affected} rows</span>
-                    </>
-                  )}
+                  </div>
+
+                  <button
+                    onClick={() => setSelectedLog(log)}
+                    className="p-2 rounded-xl bg-[#1d0f28] text-[#d1c5a9] hover:text-[#FFF1D1] hover:bg-[#271435] border border-[#450C3F] transition-colors"
+                    title="Inspect audit entry"
+                  >
+                    <ArrowUpRight size={15} />
+                  </button>
                 </div>
               </div>
+            );
+          })}
+        </div>
+      )}
 
-              {/* Right Status Badge & Arrow */}
-              <div className="flex items-center gap-4 shrink-0 self-start md:self-auto">
-                <div className="text-right">
-                  {isApproved ? (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#76C457]/15 text-[#76C457] border border-[#76C457]/30">
-                      <CheckCircle2 size={13} />
-                      {success === true ? 'Executed' : 'Approved'}
-                    </span>
-                  ) : isRejected ? (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-red-500/15 text-red-400 border border-red-500/30">
-                      Cancelled
-                    </span>
-                  ) : (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30">
-                      Pending Action
-                    </span>
-                  )}
-                </div>
-
-                <div className="p-2 rounded-xl bg-white/[0.04] text-gray-400 group-hover:text-white group-hover:bg-white/[0.08] transition-colors">
-                  <Eye size={15} />
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Details Drawer */}
+      {/* Log Details Drawer */}
       <Drawer
         open={!!selectedLog}
         onClose={() => setSelectedLog(null)}
-        title="Audit Record Details"
+        title="Audit Trail Inspector"
       >
-        {selectedLog && <AuditDetails log={selectedLog} />}
+        {selectedLog && (
+          <div className="space-y-6 text-xs font-sans">
+            <div className="space-y-1.5">
+              <span className="text-[10px] font-mono font-semibold uppercase tracking-wider text-[#8c826c]">
+                User Prompt
+              </span>
+              <p className="text-sm text-[#FFF1D1] font-semibold p-3.5 rounded-xl bg-[#0d0611] border border-[#450C3F]">
+                &ldquo;{selectedLog.user_request}&rdquo;
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div className="p-3 rounded-xl bg-[#1d0f28] border border-[#450C3F] space-y-1">
+                <span className="text-[#8c826c] text-[10px] uppercase font-mono">Timestamp</span>
+                <p className="text-[#FFF1D1] font-mono">{formatTime(selectedLog.timestamp, 'datetime')}</p>
+              </div>
+              <div className="p-3 rounded-xl bg-[#1d0f28] border border-[#450C3F] space-y-1">
+                <span className="text-[#8c826c] text-[10px] uppercase font-mono">Session ID</span>
+                <p className="text-[#FFF1D1] font-mono">{shortId(selectedLog.thread_id)}</p>
+              </div>
+              <div className="p-3 rounded-xl bg-[#1d0f28] border border-[#450C3F] space-y-1">
+                <span className="text-[#8c826c] text-[10px] uppercase font-mono">Human Decision</span>
+                <p className="text-[#FFF1D1] font-mono capitalize">{selectedLog.human_decision || 'Pending'}</p>
+              </div>
+              <div className="p-3 rounded-xl bg-[#1d0f28] border border-[#450C3F] space-y-1">
+                <span className="text-[#8c826c] text-[10px] uppercase font-mono">Estimated Rows</span>
+                <p className="text-[#FFF1D1] font-mono">{selectedLog.estimated_rows_affected ?? 'N/A'}</p>
+              </div>
+            </div>
+
+            {selectedLog.generated_sql && (
+              <div className="space-y-1.5">
+                <span className="text-[10px] font-mono font-semibold uppercase tracking-wider text-[#8c826c]">
+                  Generated SQL
+                </span>
+                <SQLViewer sql={selectedLog.generated_sql} showEditButton={false} />
+              </div>
+            )}
+          </div>
+        )}
       </Drawer>
     </div>
   );

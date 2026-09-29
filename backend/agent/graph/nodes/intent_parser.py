@@ -1,18 +1,11 @@
-import json
-import os
-from langchain_groq import ChatGroq
 from dotenv import load_dotenv
 from langchain_core.messages import HumanMessage, SystemMessage
 
 from backend.agent.schemas.pydantic_models import IntentResult
 from backend.agent.graph.state import AgentState
-load_dotenv()
+from backend.agent.llm_router import invoke_structured_with_fallback
 
-llm = ChatGroq(
-    model="qwen/qwen3.8-27b",
-    api_key=os.getenv("GROQ_API_KEY"),
-)
-structured_llm = llm.with_structured_output(IntentResult)
+load_dotenv()
 
 SYSTEM_PROMPT = """
 You are an intent classification agent for a safety-first Natural Language
@@ -49,38 +42,16 @@ one result that validates against the Pydantic schema below. Do not include
 Markdown, explanations, or text outside the structured result.
 """
 
-def parse_intent(state : AgentState) -> dict:
-    print()
-    print("Checking Intent....")
-
-    for attempt in range(1, MAX_ATTEMPTS + 1):
-        system_prompt = SYSTEM_PROMPT
-        if attempt == MAX_ATTEMPTS:
-            system_prompt += (
-                STRICT_OUTPUT_PROMPT
-                + "\nPydantic schema:\n"
-                + json.dumps(IntentResult.model_json_schema())
-            )
-
-        messages = [
-            SystemMessage(content=system_prompt),
-            HumanMessage(content=state['query']),
-        ]
-
-        try:
-            result = structured_llm.invoke(messages)
-            if not isinstance(result, IntentResult):
-                if result is None:
-                    raise ValueError("The model returned no structured result.")
-                result = IntentResult.model_validate(result)
-            break
-        except Exception as exc:
-            if attempt == MAX_ATTEMPTS:
-                raise RuntimeError(
-                    f"Intent parsing failed to return valid structured output "
-                    f"after {MAX_ATTEMPTS} attempts."
-                ) from exc
-            print(f"Intent structured output failed on attempt {attempt}; retrying.")
+def parse_intent(state: AgentState) -> dict:
+    print("\nChecking Intent....")
+    messages = [
+        SystemMessage(content=SYSTEM_PROMPT),
+        HumanMessage(content=state['query']),
+    ]
+    result = invoke_structured_with_fallback(
+        messages=messages,
+        structured_schema=IntentResult,
+    )
 
     return {
         "intent": result.intent,

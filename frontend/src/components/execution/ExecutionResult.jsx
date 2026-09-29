@@ -33,40 +33,40 @@ export default function ExecutionResult({ executionResult, intent }) {
     <motion.div
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
-      className="rounded-lg border border-[#252a38] bg-[#111318] overflow-hidden"
+      className="card-3d rounded-xl border border-[#450C3F] bg-[#140a1b] overflow-hidden font-sans"
     >
       {/* Status header */}
       <div
         className={[
           'flex items-center gap-2 px-4 py-3 border-b',
           isSuccess
-            ? 'border-emerald-500/20 bg-emerald-500/5'
-            : 'border-red-500/20 bg-red-500/5',
+            ? 'border-[#B9D175]/30 bg-[#1d0f28]'
+            : 'border-[#DF301C]/40 bg-[#16080a]',
         ].join(' ')}
       >
         {isSuccess ? (
-          <CheckCircle size={14} className="text-emerald-400 shrink-0" />
+          <CheckCircle size={14} className="text-[#B9D175] shrink-0" />
         ) : (
-          <XCircle size={14} className="text-red-400 shrink-0" />
+          <XCircle size={14} className="text-[#DF301C] shrink-0" />
         )}
         <p
-          className={`text-[10px] font-mono font-semibold uppercase tracking-widest ${
-            isSuccess ? 'text-emerald-400' : 'text-red-400'
+          className={`text-[10px] font-mono font-bold uppercase tracking-widest ${
+            isSuccess ? 'text-[#B9D175]' : 'text-[#DF301C]'
           }`}
         >
-          {isSuccess ? 'Execution Successful' : 'Execution Failed'}
+          {isSuccess ? 'Query Executed in Sandbox' : 'Execution Failed'}
         </p>
 
         {isSuccess && isRead && (
-          <span className="ml-auto flex items-center gap-1.5 text-xs text-[#8b91a8]">
-            <Table2 size={12} />
-            {rawRows.length} {rawRows.length === 1 ? 'row' : 'rows'} returned
+          <span className="ml-auto flex items-center gap-1.5 text-xs text-[#d1c5a9] font-mono">
+            <Table2 size={12} className="text-[#00B7CD]" />
+            <strong className="text-[#FFF1D1]">{rawRows.length}</strong> {rawRows.length === 1 ? 'row' : 'rows'} returned
           </span>
         )}
 
         {isSuccess && !isRead && rowsAffected !== undefined && rowsAffected !== null && (
-          <span className="ml-auto text-xs text-[#8b91a8]">
-            {rowsAffected} {rowsAffected === 1 ? 'row' : 'rows'} affected
+          <span className="ml-auto text-xs text-[#d1c5a9] font-mono">
+            <strong className="text-[#FFF1D1]">{rowsAffected}</strong> {rowsAffected === 1 ? 'row' : 'rows'} modified
           </span>
         )}
       </div>

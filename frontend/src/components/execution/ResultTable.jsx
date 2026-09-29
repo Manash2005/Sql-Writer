@@ -25,15 +25,15 @@ export default function ResultTable({ columns, rows }) {
   };
 
   return (
-    <div className="overflow-x-auto scrollbar-x rounded-lg border border-[#252a38]">
+    <div className="overflow-x-auto scrollbar-x rounded-xl border border-[#450C3F] glass-panel shadow-[0_4px_0_0_#450C3F]">
       <table className="min-w-full text-sm font-mono" role="grid" aria-label="Query results">
         <thead>
-          <tr className="bg-[#111318] border-b border-[#252a38]">
+          <tr className="bg-[#1d0f28]/90 backdrop-blur-md border-b border-[#450C3F]">
             {columns.map((col) => (
               <th
                 key={col}
                 scope="col"
-                className="px-4 py-2.5 text-left text-[10px] font-semibold text-[#565c75] uppercase tracking-widest whitespace-nowrap"
+                className="px-4 py-2.5 text-left text-[10px] font-bold text-[#FFF1D1] uppercase tracking-wider whitespace-nowrap"
               >
                 {col}
               </th>
@@ -44,9 +44,9 @@ export default function ResultTable({ columns, rows }) {
           {rows.map((row, rowIdx) => (
             <tr
               key={rowIdx}
-              className={`border-b border-[#1a1f2e] ${
-                rowIdx % 2 === 0 ? 'bg-[#0a0b0f]' : 'bg-[#0d0f15]'
-              } hover:bg-[#1a1f2e] transition-colors`}
+              className={`border-b border-[#450C3F]/40 ${
+                rowIdx % 2 === 0 ? 'bg-[#0d0611]' : 'bg-[#140a1b]'
+              } hover:bg-[#271435] transition-colors`}
             >
               {columns.map((col) => {
                 const value = row[col];
@@ -54,18 +54,18 @@ export default function ResultTable({ columns, rows }) {
                 return (
                   <td
                     key={col}
-                    className="px-4 py-2 text-xs text-[#e8eaf0] whitespace-nowrap max-w-xs truncate group relative"
+                    className="px-4 py-2 text-xs text-[#FFF1D1] whitespace-nowrap max-w-xs truncate group relative"
                     title={String(value ?? '')}
                   >
                     <span className="truncate block">{formatCellValue(value)}</span>
                     <button
                       onClick={() => handleCopyCell(value, cellKey)}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 text-[#565c75] hover:text-[#e8eaf0] transition-opacity p-0.5 rounded"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 text-[#8c826c] hover:text-[#B9D175] transition-opacity p-0.5 rounded"
                       aria-label={`Copy ${col} value`}
                     >
                       {copiedCell === cellKey
-                        ? <Check size={10} className="text-emerald-400" />
-                        : <Copy size={10} />
+                        ? <Check size={11} className="text-[#B9D175]" />
+                        : <Copy size={11} />
                       }
                     </button>
                   </td>

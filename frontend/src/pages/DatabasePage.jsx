@@ -50,26 +50,26 @@ export default function DatabasePage() {
   return (
     <div className="space-y-8">
       {/* Top Header & Tab Switcher */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-white/[0.08]">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-[#450C3F]">
         <div>
-          <h3 className="font-display font-bold text-2xl text-white tracking-tight flex items-center gap-2.5">
-            <Database className="text-[#76C457]" size={22} />
+          <h3 className="font-display font-bold text-2xl text-[#FFF1D1] tracking-tight flex items-center gap-2.5">
+            <Database className="text-[#B9D175]" size={22} />
             Sandbox Database Explorer
           </h3>
-          <p className="text-sm text-gray-400 mt-1">
-            Separated into <span className="hl-green">Live Table Records</span> and <span className="hl-neutral">Data Model Schema</span>.
+          <p className="text-sm text-[#d1c5a9] mt-1">
+            Separated into <span className="hl-lime">Live Table Records</span> and <span className="hl-plum">Data Model Schema</span>.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
           {/* Tabs */}
-          <div className="flex p-1 bg-[#12141a] border border-white/[0.08] rounded-xl">
+          <div className="flex p-1 bg-[#140a1b] border border-[#450C3F] rounded-xl">
             <button
               onClick={() => setActiveTab('data')}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
                 activeTab === 'data'
-                  ? 'bg-[#76C457] text-black shadow-[0_0_12px_rgba(118,196,87,0.35)]'
-                  : 'text-gray-400 hover:text-white'
+                  ? 'bg-[#B9D175] text-[#0d0611] shadow-[0_2px_0_0_#8fa64a]'
+                  : 'text-[#d1c5a9] hover:text-[#FFF1D1]'
               }`}
             >
               <Table size={14} />
@@ -79,19 +79,19 @@ export default function DatabasePage() {
               onClick={() => setActiveTab('schema')}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
                 activeTab === 'schema'
-                  ? 'bg-[#76C457] text-black shadow-[0_0_12px_rgba(118,196,87,0.35)]'
-                  : 'text-gray-400 hover:text-white'
+                  ? 'bg-[#B9D175] text-[#0d0611] shadow-[0_2px_0_0_#8fa64a]'
+                  : 'text-[#d1c5a9] hover:text-[#FFF1D1]'
               }`}
             >
               <Layers size={14} />
-              <span>Schema & Architecture</span>
+              <span>Schema &amp; Architecture</span>
             </button>
           </div>
 
           <button
             onClick={fetchSchema}
             disabled={schemaStatus === 'loading'}
-            className="p-2.5 rounded-xl border border-white/[0.08] hover:border-white/20 bg-[#12141a] text-gray-300 hover:text-white transition-colors"
+            className="p-2.5 rounded-xl border border-[#450C3F] hover:border-[#B9D175] bg-[#1d0f28] text-[#d1c5a9] hover:text-[#FFF1D1] transition-colors"
             title="Refresh database records"
           >
             <RefreshCw size={14} className={schemaStatus === 'loading' ? 'animate-spin' : ''} />
@@ -102,17 +102,17 @@ export default function DatabasePage() {
       {/* Loading State */}
       {schemaStatus === 'loading' && (
         <div className="p-12 text-center space-y-4">
-          <div className="inline-block h-8 w-8 animate-spin rounded-full border-2 border-[#76C457] border-t-transparent" />
-          <p className="text-sm text-gray-400 font-medium">Connecting to sandbox database…</p>
+          <div className="inline-block h-8 w-8 animate-spin rounded-full border-2 border-[#B9D175] border-t-transparent" />
+          <p className="text-sm text-[#d1c5a9] font-medium">Connecting to sandbox database…</p>
         </div>
       )}
 
       {/* Unavailable */}
       {schemaStatus === 'unavailable' && (
-        <div className="p-8 rounded-2xl border border-orange-500/20 bg-orange-500/5 text-center space-y-2">
-          <AlertCircle className="mx-auto text-orange-400" size={28} />
-          <h4 className="text-base font-semibold text-white">Database schema unavailable</h4>
-          <p className="text-xs text-gray-400 max-w-md mx-auto">
+        <div className="p-8 rounded-2xl border border-[#FF9100]/40 glass-panel text-center space-y-2">
+          <AlertCircle className="mx-auto text-[#FF9100]" size={28} />
+          <h4 className="text-base font-semibold text-[#FFF1D1]">Database schema unavailable</h4>
+          <p className="text-xs text-[#d1c5a9] max-w-md mx-auto">
             Unable to connect to the backend SQLite sandbox. Ensure your local server is running on port 8000.
           </p>
         </div>
@@ -130,7 +130,7 @@ export default function DatabasePage() {
             >
               {/* Table Selection Pills */}
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-xs font-semibold uppercase tracking-wider text-gray-400 mr-2">
+                <span className="text-xs font-semibold uppercase tracking-wider text-[#8c826c] mr-2">
                   Select Table:
                 </span>
                 {schema.map((tbl) => {
@@ -144,13 +144,13 @@ export default function DatabasePage() {
                       }}
                       className={`px-4 py-2 rounded-xl text-xs font-semibold font-mono transition-all flex items-center gap-2 ${
                         isSelected
-                          ? 'bg-white text-black font-bold shadow-[0_0_14px_rgba(255,255,255,0.25)] ring-2 ring-[#76C457]'
-                          : 'bg-[#12141a] text-gray-300 border border-white/[0.08] hover:border-white/20 hover:text-white'
+                          ? 'bg-[#B9D175] text-[#0d0611] font-bold shadow-[0_2px_0_0_#8fa64a]'
+                          : 'bg-[#1d0f28] text-[#d1c5a9] border border-[#450C3F] hover:border-[#B9D175] hover:text-[#FFF1D1]'
                       }`}
                     >
-                      <Table size={13} className={isSelected ? 'text-black' : 'text-[#76C457]'} />
+                      <Table size={13} className={isSelected ? 'text-[#0d0611]' : 'text-[#B9D175]'} />
                       <span>{tbl.name}</span>
-                      <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${isSelected ? 'bg-black/10 text-black' : 'bg-white/10 text-gray-400'}`}>
+                      <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${isSelected ? 'bg-black/20 text-[#0d0611]' : 'bg-[#450C3F] text-[#d1c5a9]'}`}>
                         {tbl.data?.length || 0}
                       </span>
                     </button>
@@ -160,31 +160,31 @@ export default function DatabasePage() {
 
               {/* Table Info & Search Banner */}
               {selectedTable && (
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-[#0f1117] border border-white/[0.07]">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-[#140a1b] border border-[#450C3F]">
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="font-mono font-bold text-base text-white">{selectedTable.name}</span>
-                      <span className="hl-green text-xs">
+                      <span className="font-mono font-bold text-base text-[#FFF1D1]">{selectedTable.name}</span>
+                      <span className="hl-lime text-xs">
                         {selectedTable.columns.length} columns
                       </span>
-                      <span className="text-xs text-gray-400">
+                      <span className="text-xs text-[#8c826c]">
                         • {selectedTable.data?.length || 0} total records
                       </span>
                     </div>
-                    <p className="text-xs text-gray-400 mt-1">
+                    <p className="text-xs text-[#d1c5a9] mt-1">
                       {TABLE_DESCRIPTIONS[selectedTable.name] || 'Active SQLite sandbox table.'}
                     </p>
                   </div>
 
                   {/* Search records */}
                   <div className="relative min-w-[240px]">
-                    <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                    <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8c826c]" />
                     <input
                       type="text"
                       value={searchFilter}
                       onChange={(e) => setSearchFilter(e.target.value)}
                       placeholder={`Filter in ${selectedTable.name}…`}
-                      className="w-full pl-9 pr-3 py-1.5 text-xs bg-black/60 border border-white/[0.1] rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#76C457] transition-colors"
+                      className="w-full pl-9 pr-3 py-1.5 text-xs bg-[#0d0611] border border-[#450C3F] rounded-lg text-[#FFF1D1] placeholder-[#8c826c] focus:outline-none focus:border-[#00B7CD] transition-colors"
                     />
                   </div>
                 </div>
@@ -294,26 +294,26 @@ export default function DatabasePage() {
                 {schema.map((tbl) => (
                   <div
                     key={tbl.name}
-                    className="rounded-2xl border border-white/[0.08] bg-[#0c0d12] p-5 shadow-xl space-y-4 hover:border-white/20 transition-colors"
+                    className="card-3d rounded-2xl p-5 space-y-4"
                   >
                     <div className="flex items-start justify-between">
                       <div className="space-y-1">
                         <div className="flex items-center gap-2">
-                          <Table size={16} className="text-[#76C457]" />
-                          <h4 className="font-mono font-bold text-lg text-white">
+                          <Table size={16} className="text-[#B9D175]" />
+                          <h4 className="font-mono font-bold text-lg text-[#FFF1D1]">
                             {tbl.name}
                           </h4>
                         </div>
-                        <p className="text-xs text-gray-400">
+                        <p className="text-xs text-[#d1c5a9]">
                           {TABLE_DESCRIPTIONS[tbl.name] || 'Application data table.'}
                         </p>
                       </div>
-                      <span className="hl-neutral text-[11px] font-mono">
+                      <span className="hl-plum text-[11px] font-mono">
                         {tbl.columns.length} columns
                       </span>
                     </div>
 
-                    <div className="space-y-1.5 pt-2 border-t border-white/[0.06]">
+                    <div className="space-y-1.5 pt-2 border-t border-[#450C3F]">
                       {tbl.columns.map((col) => {
                         const isPrimaryKey = col.name.toLowerCase() === 'id';
                         const isForeignKey = col.name.toLowerCase().endsWith('_id');
@@ -322,21 +322,21 @@ export default function DatabasePage() {
                         return (
                           <div
                             key={col.name}
-                            className="flex items-center justify-between py-1.5 px-3 rounded-lg bg-[#12141a] text-xs font-mono group hover:bg-[#181a22] transition-colors"
+                            className="flex items-center justify-between py-1.5 px-3 rounded-lg bg-[#1d0f28] text-xs font-mono group hover:bg-[#271435] transition-colors"
                           >
                             <div className="flex items-center gap-2">
                               {isPrimaryKey ? (
-                                <Key size={12} className="text-[#76C457]" />
+                                <Key size={12} className="text-[#B9D175]" />
                               ) : isForeignKey ? (
-                                <Hash size={12} className="text-orange-400" />
+                                <Hash size={12} className="text-[#FF9100]" />
                               ) : type.includes('INT') || type.includes('REAL') ? (
-                                <Hash size={12} className="text-gray-400" />
+                                <Hash size={12} className="text-[#8c826c]" />
                               ) : (
-                                <Type size={12} className="text-gray-400" />
+                                <Type size={12} className="text-[#8c826c]" />
                               )}
-                              <span className="text-white font-medium">{col.name}</span>
+                              <span className="text-[#FFF1D1] font-medium">{col.name}</span>
                               {isPrimaryKey && (
-                                <span className="hl-green text-[9px] px-1 py-0.2 rounded font-bold uppercase">
+                                <span className="hl-lime text-[9px] px-1 py-0.2 rounded font-bold uppercase">
                                   PK
                                 </span>
                               )}

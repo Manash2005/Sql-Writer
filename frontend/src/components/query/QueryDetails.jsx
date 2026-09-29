@@ -1,4 +1,4 @@
-import { User, Sparkles, ShieldCheck } from 'lucide-react';
+import { Terminal, ShieldCheck, Database } from 'lucide-react';
 import { shortId } from '../../lib/utils';
 
 /**
@@ -10,47 +10,47 @@ export default function QueryDetails({ result }) {
   const isWrite = result.intent?.toLowerCase() === 'write';
 
   return (
-    <div className="rounded-2xl border border-white/[0.08] bg-[#0c0d12] p-5 shadow-xl space-y-4">
+    <div className="glass-panel rounded-2xl p-5 space-y-4 font-sans shadow-[0_4px_0_0_#450C3F]">
       {/* Top Request Bar */}
       <div className="flex items-start gap-3">
-        <div className="h-8 w-8 rounded-lg bg-white/[0.06] flex items-center justify-center shrink-0 mt-0.5 text-gray-300">
-          <User size={15} />
+        <div className="h-8 w-8 rounded-lg bg-[#1d0f28] border border-[#450C3F] flex items-center justify-center shrink-0 mt-0.5 text-[#00B7CD]">
+          <Terminal size={15} />
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs font-semibold uppercase tracking-wider text-gray-400">
-              Your Question:
+            <span className="text-[11px] font-mono uppercase tracking-wider text-[#8c826c]">
+              Submitted Query:
             </span>
-            <span className="text-[10px] font-mono text-gray-500">
+            <span className="text-[10px] font-mono text-[#8c826c]">
               Session #{shortId(result.thread_id)}
             </span>
           </div>
-          <p className="text-base sm:text-lg text-white font-medium leading-snug">
+          <p className="text-base sm:text-lg text-[#FFF1D1] font-semibold leading-snug">
             &ldquo;{result.query}&rdquo;
           </p>
         </div>
       </div>
 
       {/* Badges / Assessment summary */}
-      <div className="flex flex-wrap items-center gap-3 pt-3 border-t border-white/[0.06] text-xs">
-        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#14161f] border border-white/[0.08]">
-          <Sparkles size={13} className="text-[#76C457]" />
-          <span className="text-gray-400">Intent:</span>
-          <span className={`font-semibold ${isRead ? 'text-[#76C457]' : isWrite ? 'text-orange-400' : 'text-blue-400'}`}>
-            {isRead ? 'Read & Analyze Data' : isWrite ? 'Modify Database' : 'Schema Inquiry'}
+      <div className="flex flex-wrap items-center gap-2.5 pt-3 border-t border-[#450C3F] text-xs">
+        <div className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#1d0f28] border border-[#450C3F]">
+          <Database size={12} className={isRead ? 'text-[#B9D175]' : 'text-[#FF9100]'} />
+          <span className="text-[#8c826c]">Intent:</span>
+          <span className={`font-semibold ${isRead ? 'text-[#B9D175]' : isWrite ? 'text-[#FF9100]' : 'text-[#00B7CD]'}`}>
+            {isRead ? 'Read & Retrieve' : isWrite ? 'Write / Modify' : 'Schema'}
           </span>
         </div>
 
-        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#14161f] border border-white/[0.08]">
-          <ShieldCheck size={13} className="text-[#76C457]" />
-          <span className="text-gray-400">Safety Guard:</span>
-          <span className="text-[#76C457] font-semibold">Deterministic Filter Active</span>
+        <div className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#1d0f28] border border-[#450C3F]">
+          <ShieldCheck size={12} className="text-[#B9D175]" />
+          <span className="text-[#8c826c]">Guardrails:</span>
+          <span className="text-[#B9D175] font-semibold">AST Verified</span>
         </div>
 
         {result.estimated_rows_affected !== null && result.estimated_rows_affected !== undefined && (
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#14161f] border border-white/[0.08]">
-            <span className="text-gray-400">Estimated Impact:</span>
-            <span className="text-white font-semibold">{result.estimated_rows_affected} rows</span>
+          <div className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#1d0f28] border border-[#450C3F]">
+            <span className="text-[#8c826c]">Estimated Rows:</span>
+            <span className="text-[#FFF1D1] font-semibold">{result.estimated_rows_affected}</span>
           </div>
         )}
       </div>
