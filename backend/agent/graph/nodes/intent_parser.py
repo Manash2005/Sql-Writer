@@ -1,6 +1,6 @@
 import json
 import os
-from langchain_openrouter import ChatOpenRouter
+from langchain_groq import ChatGroq
 from dotenv import load_dotenv
 from langchain_core.messages import HumanMessage, SystemMessage
 
@@ -8,7 +8,10 @@ from backend.agent.schemas.pydantic_models import IntentResult
 from backend.agent.graph.state import AgentState
 load_dotenv()
 
-llm = ChatOpenRouter(model='openrouter/free', api_key=os.getenv('OPENROUTER_API_KEY'))
+llm = ChatGroq(
+    model="qwen/qwen3.8-27b",
+    api_key=os.getenv("GROQ_API_KEY"),
+)
 structured_llm = llm.with_structured_output(IntentResult)
 
 SYSTEM_PROMPT = """

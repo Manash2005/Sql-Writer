@@ -4,15 +4,17 @@ from backend.agent.graph.nodes.validator import (
 )
 
 
-test_sql = """
-DELETE FROM orders;
-"""
+def test_delete_where_inside_comment_is_rejected(sandbox_db):
+    sql = "DELETE FROM orders -- WHERE 1=1\n"
 
-print("SQL:")
-print(test_sql)
+    assert "missing_where_clause" in validate_sql_safety(sql)
+    assert estimate_rows_affected(sql) is None
 
-print("Risk flags:")
-print(validate_sql_safety(test_sql))
 
-print("Estimated rows affected:")
-print(estimate_rows_affected(test_sql))
+def test_unsupported_sql_statements_are_rejected(sandbox_db):
+    assert "unsupported_statement_type" in validate_sql_safety(
+        "PRAGMA user_version = 1"
+    )
+    assert "unsupported_statement_type" in validate_sql_safety(
+        'ATTACH DATABASE "other.db" AS other'
+    )

@@ -1,0 +1,183 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg-base: #000000;
+  --color-bg-surface: #0a0a0a;
+  --color-bg-elevated: #111111;
+  --color-bg-overlay: #1a1a1a;
+  --color-border: #222222;
+  --color-border-subtle: #111111;
+
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #a3a3a3;
+  --color-text-muted: #525252;
+
+  --color-indigo-400: #76C457;
+  --color-indigo-500: #76C457;
+  --color-indigo-600: #62a348;
+  --color-indigo-700: #4f823a;
+
+  --color-violet-400: #76C457;
+  --color-violet-500: #62a348;
+
+  --color-emerald-400: #76C457;
+  --color-emerald-500: #62a348;
+  --color-emerald-600: #4f823a;
+
+  --color-amber-400: #f97316;
+  --color-amber-500: #ea580c;
+
+  --color-red-400: #f87171;
+  --color-red-500: #ef4444;
+  --color-red-600: #dc2626;
+
+  --color-blue-400: #60a5fa;
+  --color-blue-500: #3b82f6;
+
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+}
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-family: var(--font-sans);
+    background-color: var(--color-bg-base);
+    color: var(--color-text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+    letter-spacing: -0.011em;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--color-bg-base);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    letter-spacing: -0.025em;
+  }
+
+  #root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-indigo-500);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-muted);
+  }
+}
+
+@layer utilities {
+  .font-mono {
+    font-family: var(--font-mono);
+  }
+
+  .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.025em;
+  }
+
+  .font-body {
+    font-family: var(--font-sans);
+  }
+
+  /* Digital Highlighter Marker Styles */
+  .hl-green {
+    background: rgba(118, 196, 87, 0.16);
+    color: #8ce16a;
+    border-bottom: 2.5px solid #76C457;
+    padding: 0.12em 0.48em;
+    border-radius: 5px;
+    font-weight: 600;
+    box-shadow: 0 0 14px rgba(118, 196, 87, 0.18);
+  }
+
+  .hl-orange {
+    background: rgba(249, 115, 22, 0.16);
+    color: #fb923c;
+    border-bottom: 2.5px solid #f97316;
+    padding: 0.12em 0.48em;
+    border-radius: 5px;
+    font-weight: 600;
+    box-shadow: 0 0 14px rgba(249, 115, 22, 0.18);
+  }
+
+  .hl-red {
+    background: rgba(239, 68, 68, 0.16);
+    color: #fca5a5;
+    border-bottom: 2.5px solid #ef4444;
+    padding: 0.12em 0.48em;
+    border-radius: 5px;
+    font-weight: 600;
+    box-shadow: 0 0 14px rgba(239, 68, 68, 0.18);
+  }
+
+  .hl-blue {
+    background: rgba(59, 130, 246, 0.16);
+    color: #93c5fd;
+    border-bottom: 2.5px solid #3b82f6;
+    padding: 0.12em 0.48em;
+    border-radius: 5px;
+    font-weight: 600;
+  }
+
+  .hl-neutral {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    border-bottom: 2.5px solid rgba(255, 255, 255, 0.6);
+    padding: 0.12em 0.48em;
+    border-radius: 5px;
+    font-weight: 600;
+  }
+
+  .bg-base { background-color: var(--color-bg-base); }
+  .bg-surface { background-color: var(--color-bg-surface); }
+  .bg-elevated { background-color: var(--color-bg-elevated); }
+  .bg-overlay { background-color: var(--color-bg-overlay); }
+
+  .border-subtle { border-color: var(--color-border-subtle); }
+  .border-default { border-color: var(--color-border); }
+
+  .text-primary { color: var(--color-text-primary); }
+  .text-secondary { color: var(--color-text-secondary); }
+  .text-muted { color: var(--color-text-muted); }
+
+  .scrollbar-x {
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+}

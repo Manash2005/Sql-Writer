@@ -1,13 +1,19 @@
+import os
+
 from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 from langchain_core.messages import HumanMessage, SystemMessage
+
 from backend.agent.schemas.pydantic_models import SQLResult
 from backend.agent.graph.state import AgentState
 
 
 load_dotenv()
 
-llm = ChatGroq(model='qwen/qwen3.8-27b')
+llm = ChatGroq(
+   model="qwen/qwen3.8-27b",
+   api_key=os.getenv("GROQ_API_KEY"),
+)
 structured_llm = llm.with_structured_output(SQLResult)
 
 SYSTEM_PROMPT = """

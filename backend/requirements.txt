@@ -4,20 +4,15 @@ uvicorn[standard]
 
 # Agent orchestration
 langgraph
+langgraph-checkpoint-sqlite
 
 # LLM integration
 langchain
-langchain-openai
-langchain-openrouter
-langchain[google-genai]
+langchain-core
 langchain-groq
 
 # Structured outputs / validation
 pydantic
-
-# Database
-sqlalchemy
-psycopg[binary]
 
 # SQL parsing and safety validation
 sqlparse

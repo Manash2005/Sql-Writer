@@ -2,9 +2,9 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 class IntentResult(BaseModel):
-    intent : Literal["read", "write", "schema_change"]
-    tables_referenced: list[str] = None
-    columns_referenced: list[str] = None 
+    intent: Literal["read", "write", "schema_change"]
+    tables_referenced: list[str] = Field(default_factory=list)
+    columns_referenced: list[str] = Field(default_factory=list)
     conditions_mentioned: str | None = None
     confidence: float = Field(ge=0.0, le=1.0)
 
@@ -14,4 +14,4 @@ class AmbiguityResult(BaseModel):
     clarifying_question: list[str] | None = None
 
 class SQLResult(BaseModel):
-    sql : str
+    sql: str

@@ -44,15 +44,11 @@ htmlcov/
 .DS_Store
 
 # =========================
-# Project data
+# Temporary logs & locks
 # =========================
-*.db
-*.sqlite
-*.sqlite3
-
-# Audit logs / generated data
 *.log
-data/audit_log.*
+*.db-wal
+*.db-shm
 
 # =========================
 # Build / Packaging
@@ -72,3 +68,12 @@ dist/
 # =========================
 .DS_Store
 Thumbs.db
+
+# =========================
+# Production / Deployment Configs
+# =========================
+render.yaml
+.vercel
+.vercel/
+vercel.json
+**/vercel.json

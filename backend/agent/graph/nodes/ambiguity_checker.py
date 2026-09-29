@@ -2,7 +2,7 @@ import json
 import os
 
 from langchain_core.messages import HumanMessage, SystemMessage
-from langchain_openrouter import ChatOpenRouter
+from langchain_groq import ChatGroq
 from dotenv import load_dotenv
 
 from backend.agent.schemas.pydantic_models import AmbiguityResult
@@ -10,7 +10,10 @@ from backend.agent.graph.state import AgentState
 
 load_dotenv()
 
-llm = ChatOpenRouter(model='openrouter/free', api_key=os.getenv('OPENROUTER_API_KEY'))
+llm = ChatGroq(
+    model="qwen/qwen3.8-27b",
+    api_key=os.getenv("GROQ_API_KEY"),
+)
 structured_llm = llm.with_structured_output(AmbiguityResult)
 
 MAX_ATTEMPTS = 3
@@ -22,44 +25,19 @@ Natural Language to SQL system.
 Your job is to determine whether the user's request contains enough
 information to safely generate SQL.
 
-The system must NEVER guess missing information.
+The system must NEVER guess missing information for destructive operations.
 
-A request is insufficient when important information needed to determine
-the intended database operation is missing.
-
-Pay particular attention to write operations:
-
-- UPDATE requests need a clearly defined scope.
-- DELETE requests need a clearly defined scope.
-- INSERT requests need enough information to determine what should be inserted.
-- Requests involving multiple possible tables or meanings may require clarification.
-
-Examples:
-
-"Show me all orders from last week."
-→ sufficient
-
-"Delete old orders."
-→ insufficient because "old" is not defined.
-
-"Update all users' status."
-→ insufficient because no target status or row scope is specified.
-
-"Update users who have been inactive for 90 days to archived."
-→ sufficient.
-
-"Drop the users table."
-→ insufficient for this system because schema-changing operations
-are blocked in v1.
+Rules for sufficiency:
+- For read operations (retrieval / inspection): Be helpful and lenient. Do not demand clarification for common business questions (e.g. "customers who paid the most" can naturally use SUM of order totals; "pending orders" can use status = 'pending'). Mark read requests as sufficient unless completely incomprehensible.
+- For write operations (UPDATE / DELETE): Require a defined scope or condition. "Delete old orders" is insufficient because "old" is undefined. "Update status" without a target value or user filter is insufficient.
+- If clarification history is present, incorporate the user's answers and proceed.
 
 Do not generate SQL.
 
 Return:
-- whether the request is sufficient
+- whether the request is sufficient (is_sufficient: true/false)
 - what information is missing, if any
 - one targeted clarification question if information is missing
-
-Ask only one clarification question at a time.
 """
 
 STRICT_OUTPUT_PROMPT = """
@@ -70,6 +48,18 @@ Markdown, explanations, or text outside the structured result.
 
 def ambiguity_checker(state : AgentState) -> dict:
     print("\nChecking For Ambiguity....")
+
+    clarification_history = state.get("clarification_history") or []
+
+    # If the user has already provided clarification (or clicked skip), proceed to SQL generation immediately.
+    # Never trap the user in a clarification loop.
+    if clarification_history:
+        print("Clarification provided by user. Proceeding directly to SQL generation.")
+        return {
+            "is_ambiguous": False,
+            "ask_questions": None,
+            "workflow_status": "processing",
+        }
 
     for attempt in range(1, MAX_ATTEMPTS + 1):
         system_prompt = SYSTEM_PROMPT
@@ -118,5 +108,6 @@ def ambiguity_checker(state : AgentState) -> dict:
 
     return {
         "is_ambiguous" : not result.is_sufficient,
-        "ask_questions" : result.clarifying_question
+        "ask_questions" : result.clarifying_question,
+        "workflow_status": "awaiting_clarification" if not result.is_sufficient else "processing",
     }
